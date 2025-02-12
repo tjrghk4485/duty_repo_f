@@ -22,12 +22,16 @@ a:hover {
   color: #535bf2;
 }
 
-body {
+html, body {
+  height: 100%; /* 전체 화면 높이를 100%로 설정 */
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  padding: 0;
+}
+
+/* 페이지의 기본 스타일 */
+body {
+  background-color: #242424; /* 배경색을 여기에 설정 */
+  color: rgba(14, 13, 13, 0.87); /* 텍스트 색상을 여기에 설정 */
 }
 
 h1 {
