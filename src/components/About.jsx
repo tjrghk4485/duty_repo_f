@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState,useEffect, useRef } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import './css/Menu.css'
+import axios from 'axios';
 
 // AG-Grid에서 필요한 모듈을 import
 import { AllCommunityModule } from 'ag-grid-community';
@@ -10,11 +11,26 @@ import { AllCommunityModule } from 'ag-grid-community';
 const About = () => {
     const gridApi = useRef(null);
     const columnApi = useRef(null);
+    const [rowData, setRowData] = useState([]); // useState로 수정 
+    
+    
+
 
     const onGridReady = (params) => {
+        
         gridApi.current = params.api;
         columnApi.current = params.columnApi;
         gridApi.current.sizeColumnsToFit();
+
+        axios.get('http://localhost:8080/send',{
+            params: {
+                id: 'a001'
+            }
+        })
+      .then(response => setRowData(response.data))
+      .catch(error => console.error('Error:', error));
+        
+
     };
 
     // 리사이즈 시 컬럼 크기 자동 조정
@@ -30,17 +46,12 @@ const About = () => {
     };
 
     const columns = [
-        { headerName: "Make", field: "make", editable: true },
-        { headerName: "Model", field: "model", editable: true },
-        { headerName: "Price", field: "price", editable: true }
+        { headerName: "간호사번호", field: "NURSE_ID", editable: true },
+        { headerName: "이름", field: "NURSE_NM", editable: true },
+        { headerName: "사용자", field: "PARENT_ID", editable: true }
     ];
 
-    const rowData = [
-        { make: "Toyota", model: "Celica", price: 35000 },
-        { make: "Ford", model: "Mondeo", price: 32000 },
-        { make: "Porsche", model: "Boxster", price: 72000 },
-        { make: "Toyota", model: "", price: 35000 }
-    ];
+   
 
     return (
         <div className="main-content">

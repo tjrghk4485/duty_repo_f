@@ -12,6 +12,7 @@
   "dependencies": {
     "ag-grid-community": "^33.1.0",
     "ag-grid-react": "^33.1.0",
+    "axios": "^1.7.9",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^6.29.0"
