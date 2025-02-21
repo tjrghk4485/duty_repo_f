@@ -11,7 +11,31 @@ import { AllCommunityModule } from 'ag-grid-community';
 const About = () => {
     const gridApi = useRef(null);
     const columnApi = useRef(null);
-    const [rowData, setRowData] = useState([]); // useState로 수정 
+    const [rowData, setRowData] = useState([{
+        DELETE: false,
+        PARENT_ID: 'user123',
+        STATUS: null,
+        NURSE_ID: 'NUR001',
+        NURSE_NM: '홍길동',
+        USE_YN: true
+    },
+    {
+        DELETE: false,
+        PARENT_ID: 'user456',
+        STATUS: null,
+        NURSE_ID: 'NUR002',
+        NURSE_NM: '김철수',
+        USE_YN: true
+    },
+    {
+        DELETE: false,
+        PARENT_ID: 'user789',
+        STATUS: null,
+        NURSE_ID: 'NUR003',
+        NURSE_NM: '이영희',
+        USE_YN: false
+    }
+]); // useState로 수정 
     
     
 
@@ -26,19 +50,19 @@ const About = () => {
         columnApi.current = params.columnApi;
         gridApi.current.sizeColumnsToFit();
 
-        axios.get('http://localhost:8080/bm/nurse/sel',{
-            params: {
-                id: 'a001'
-            }
-        })
-        .then(response => {
-            const modifiedData = response.data.map(item => ({
-                ...item,
-                DELETE: false
-            }));
-            setRowData(modifiedData);
-        })
-      .catch(error => alert('Error:', error));
+    //     axios.get('http://localhost:8080/bm/nurse/sel',{
+    //         params: {
+    //             id: 'a001'
+    //         }
+    //     })
+    //     .then(response => {
+    //         const modifiedData = response.data.map(item => ({
+    //             ...item,
+    //             DELETE: false
+    //         }));
+    //         setRowData(modifiedData);
+    //     })
+    //   .catch(error => alert('Error:', error));
     
     
 
@@ -61,7 +85,7 @@ const About = () => {
     const columns = [
         { headerName: "삭제", field: "DELETE",editable: true},
         { headerName: "사용자", field: "PARENT_ID", editable: true },
-        { headerName: "상태", field: "STATUS", editable: true },
+        { headerName: "상태", field: "STATUS", editable: false },
         { headerName: "간호사번호", field: "NURSE_ID", editable: true },
         { headerName: "이름", field: "NURSE_NM", editable: true },
         { headerName: "사용여부", field: "USE_YN", editable: true }
@@ -69,12 +93,38 @@ const About = () => {
 
    //=================================그리드이벤트=========================================//
     // 체크박스를 클릭한 후 해당 행의 age만 업데이트
+    const modifiedStates = useRef({});
+    
+
+
+
     const onCellValueChanged = (event) => {
         const { oldValue, newValue, data, colDef } = event;
         console.log(`컬럼: ${colDef.field}, 변경 전 값: ${oldValue}, 변경 후 값: ${newValue}`);
+        console.log(event);
+
         
-        // 특정 컬럼을 기준으로 값 변경 후 처리
-        
+        const rowId = event.node.id;
+        // DELETE 선택시 해당 상태 삭제로 변경경
+        if(colDef.field == "DELETE"){
+            if(newValue == true){
+                const updatedData = { ...event.data, "STATUS": "D" }; // b 컬럼의 값을 변경
+                const rowNode = gridApi.current.getRowNode(event.node.id); // 업데이트할 행 노드를 찾아서 데이터 업데이트
+                rowNode.setData(updatedData);     
+                gridApi.current.refreshCells({ rowNodes: [rowNode], force: true }); // 변경된 셀 리렌더링
+                }else if(newValue == false){
+                    const updatedData = { ...event.data, "STATUS": null }; // b 컬럼의 값을 변경
+                    const rowNode = gridApi.current.getRowNode(event.node.id); // 업데이트할 행 노드를 찾아서 데이터 업데이트
+                    rowNode.setData(updatedData);
+                    gridApi.current.refreshCells({ rowNodes: [rowNode], force: true }); // 변경된 셀 리렌더링
+                    }
+        }else if(colDef.field != "STATUS"){
+            const updatedData = { ...event.data, "STATUS": "U" }; // b 컬럼의 값을 변경
+            const rowNode = gridApi.current.getRowNode(event.node.id); // 업데이트할 행 노드를 찾아서 데이터 업데이트
+            rowNode.setData(updatedData);     
+            gridApi.current.refreshCells({ rowNodes: [rowNode], force: true }); // 변경된 셀 리렌더링
+            }
+
       };
 
 
@@ -97,6 +147,7 @@ const About = () => {
                     modules={[AllCommunityModule]}
                     onCellEditCommit={onCellEditCommit}  // 셀 편집 완료 후 데이터 추적
                     onCellValueChanged={onCellValueChanged}
+
                     
                 />
             </div>
