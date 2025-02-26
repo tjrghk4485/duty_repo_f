@@ -38,7 +38,7 @@ const About = () => {
 ]); // useState로 수정 
     
     
-
+    
 
   
     
@@ -64,8 +64,8 @@ const About = () => {
     //     })
     //   .catch(error => alert('Error:', error));
     
-    
-
+    const allData = gridApi.current.getRenderedNodes().map(node => node.data);
+    console.log("테이블데이터 =", allData);
     };
 
     // 리사이즈 시 컬럼 크기 자동 조정
@@ -90,7 +90,17 @@ const About = () => {
         { headerName: "이름", field: "NURSE_NM", editable: true },
         { headerName: "사용여부", field: "USE_YN", editable: true }
     ];
-
+    //===============================잡기능==============================================//
+    const addRow = () => {
+        const newItem = {  DELETE: false,
+            PARENT_ID: 'user123',
+            STATUS: 'I',
+            NURSE_ID: 'NUR001',
+            NURSE_NM: '홍길동',
+            USE_YN: true };
+        setRowData([...rowData, newItem]);
+    };
+    //===============================잡기능==============================================//
    //=================================그리드이벤트=========================================//
     // 체크박스를 클릭한 후 해당 행의 age만 업데이트
     const modifiedStates = useRef({});
@@ -118,7 +128,8 @@ const About = () => {
                     rowNode.setData(updatedData);
                     gridApi.current.refreshCells({ rowNodes: [rowNode], force: true }); // 변경된 셀 리렌더링
                     }
-        }else if(colDef.field != "STATUS"){
+        }else if(colDef.field != "STATUS" && event.data.STATUS != 'I'){
+            console.log("event.data.STATUS" + event.data.STATUS);
             const updatedData = { ...event.data, "STATUS": "U" }; // b 컬럼의 값을 변경
             const rowNode = gridApi.current.getRowNode(event.node.id); // 업데이트할 행 노드를 찾아서 데이터 업데이트
             rowNode.setData(updatedData);     
@@ -136,6 +147,7 @@ const About = () => {
             <button className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition">
                 Export Data
             </button>
+            <button onClick={addRow}>행 추가</button>
         </div>
             <div className="ag-theme-alpine" style={{ height: 500, width: '1200px' }}>
                 <AgGridReact
