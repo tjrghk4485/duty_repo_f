@@ -11,30 +11,31 @@ import { AllCommunityModule } from 'ag-grid-community';
 const About = () => {
     const gridApi = useRef(null);
     const columnApi = useRef(null);
-    const [rowData, setRowData] = useState([{
-        DELETE: false,
-        PARENT_ID: 'user123',
-        STATUS: null,
-        NURSE_ID: 'NUR001',
-        NURSE_NM: '홍길동',
-        USE_YN: true
-    },
-    {
-        DELETE: false,
-        PARENT_ID: 'user456',
-        STATUS: null,
-        NURSE_ID: 'NUR002',
-        NURSE_NM: '김철수',
-        USE_YN: true
-    },
-    {
-        DELETE: false,
-        PARENT_ID: 'user789',
-        STATUS: null,
-        NURSE_ID: 'NUR003',
-        NURSE_NM: '이영희',
-        USE_YN: false
-    }
+    const [rowData, setRowData] = useState([
+    //     {
+    //     DELETE: false,
+    //     PARENT_ID: 'user123',
+    //     STATUS: null,
+    //     NURSE_ID: 'NUR001',
+    //     NURSE_NM: '홍길동',
+    //     USE_YN: true
+    // },
+    // {
+    //     DELETE: false,
+    //     PARENT_ID: 'user456',
+    //     STATUS: null,
+    //     NURSE_ID: 'NUR002',
+    //     NURSE_NM: '김철수',
+    //     USE_YN: true
+    // },
+    // {
+    //     DELETE: false,
+    //     PARENT_ID: 'user789',
+    //     STATUS: null,
+    //     NURSE_ID: 'NUR003',
+    //     NURSE_NM: '이영희',
+    //     USE_YN: false
+    // }
 ]); // useState로 수정 
     
     
@@ -50,19 +51,19 @@ const About = () => {
         columnApi.current = params.columnApi;
         gridApi.current.sizeColumnsToFit();
 
-    //     axios.get('http://localhost:8080/bm/nurse/sel',{
-    //         params: {
-    //             id: 'a001'
-    //         }
-    //     })
-    //     .then(response => {
-    //         const modifiedData = response.data.map(item => ({
-    //             ...item,
-    //             DELETE: false
-    //         }));
-    //         setRowData(modifiedData);
-    //     })
-    //   .catch(error => alert('Error:', error));
+        axios.get('http://localhost:8080/bm/nurse/sel',{
+            params: {
+                id: 'a001'
+            }
+        })
+        .then(response => {
+            const modifiedData = response.data.map(item => ({
+                ...item,
+                DELETE: false
+            }));
+            setRowData(modifiedData);
+        })
+      .catch(error => alert('Error:', error));
     
     const allData = gridApi.current.getRenderedNodes().map(node => node.data);
     console.log("테이블데이터 =", allData);
@@ -100,6 +101,26 @@ const About = () => {
             USE_YN: true };
         setRowData([...rowData, newItem]);
     };
+
+
+   
+
+  const sendDataToServer = async () => {
+    // gridApi가 초기화되었을 때만 호출
+    if (gridApi.current) {
+        const selectedData = gridApi.current.getSelectedRows();  // 선택된 데이터 가져오기
+        console.log("selectedData =", selectedData);
+        
+        try {
+            const response = await axios.post('http://localhost:8080/bm/nurse/mod', selectedData);
+            console.log('서버 응답:', response.data);
+        } catch (error) {
+            console.error('서버에 데이터 전송 중 오류:', error);
+        }
+    } else {
+        console.log("gridApi가 초기화되지 않았습니다.");
+    }
+};
     //===============================잡기능==============================================//
    //=================================그리드이벤트=========================================//
     // 체크박스를 클릭한 후 해당 행의 age만 업데이트
@@ -167,7 +188,7 @@ const About = () => {
         <div className="main-content">
             <h2>About Page with AG-Grid</h2>
             <div className="absolute top-0 right-0">
-            <button className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition">
+            <button onClick={sendDataToServer} className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition">
                 Export Data
             </button>
             <button onClick={addRow}>행 추가</button>
