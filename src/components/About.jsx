@@ -13,27 +13,27 @@ const About = () => {
     const columnApi = useRef(null);
     const [rowData, setRowData] = useState([
     //     {
-    //     DELETE: false,
-    //     PARENT_ID: 'user123',
-    //     STATUS: null,
-    //     NURSE_ID: 'NUR001',
-    //     NURSE_NM: '홍길동',
+    //     delete: false,
+    //     parent_id: 'user123',
+    //     status: null,
+    //     nurse_id: 'NUR001',
+    //     nurse_nm: '홍길동',
     //     USE_YN: true
     // },
     // {
-    //     DELETE: false,
-    //     PARENT_ID: 'user456',
-    //     STATUS: null,
-    //     NURSE_ID: 'NUR002',
-    //     NURSE_NM: '김철수',
+    //     delete: false,
+    //     parent_id: 'user456',
+    //     status: null,
+    //     nurse_id: 'NUR002',
+    //     nurse_nm: '김철수',
     //     USE_YN: true
     // },
     // {
-    //     DELETE: false,
-    //     PARENT_ID: 'user789',
-    //     STATUS: null,
-    //     NURSE_ID: 'NUR003',
-    //     NURSE_NM: '이영희',
+    //     delete: false,
+    //     parent_id: 'user789',
+    //     status: null,
+    //     nurse_id: 'NUR003',
+    //     nurse_nm: '이영희',
     //     USE_YN: false
     // }
 ]); // useState로 수정 
@@ -53,13 +53,13 @@ const About = () => {
 
         axios.get('http://localhost:8080/bm/nurse/sel',{
             params: {
-                id: 'a001'
+                parent_id: '100'
             }
         })
         .then(response => {
             const modifiedData = response.data.map(item => ({
                 ...item,
-                DELETE: false
+                delete: false
             }));
             setRowData(modifiedData);
         })
@@ -84,20 +84,21 @@ const About = () => {
     
 
     const columns = [
-        { headerName: "삭제", field: "DELETE",editable: true},
-        { headerName: "사용자", field: "PARENT_ID", editable: true },
-        { headerName: "상태", field: "STATUS", editable: false },
-        { headerName: "간호사번호", field: "NURSE_ID", editable: true },
-        { headerName: "이름", field: "NURSE_NM", editable: true },
-        { headerName: "사용여부", field: "USE_YN", editable: true }
+        { headerName: "삭제", field: "delete",editable: true},
+        { headerName: "상태", field: "status", editable: false },
+        { headerName: "사용자", field: "parent_id", editable: true },
+        { headerName: "간호사번호", field: "nurse_id", editable: true },
+        { headerName: "이름", field: "nurse_nm", editable: true },
+        { headerName: "근무시작일", field: "start_date", editable: true },
+        { headerName: "사용여부", field: "use_yn", editable: true }
     ];
     //===============================잡기능==============================================//
     const addRow = () => {
-        const newItem = {  DELETE: false,
-            PARENT_ID: 'user123',
-            STATUS: 'I',
-            NURSE_ID: 'NUR001',
-            NURSE_NM: '홍길동',
+        const newItem = {  delete: false,
+            parent_id: 'user123',
+            status: 'I',
+            nurse_id: 'NUR001',
+            nurse_nm: '홍길동',
             USE_YN: true };
         setRowData([...rowData, newItem]);
     };
@@ -136,26 +137,26 @@ const About = () => {
 
     // const onCellValueChanged = (event) => {
     //     const { oldValue, newValue, data, colDef } = event;
-    //     console.log(`컬럼: ${colDef.field}, 변경 전 값: ${oldValue}, 변경 후 값: ${newValue}, data.id${data.DELETE}`);
+    //     console.log(`컬럼: ${colDef.field}, 변경 전 값: ${oldValue}, 변경 후 값: ${newValue}, data.id${data.delete}`);
         
         
     //     const rowId = event.node.id;
-    //     // DELETE 선택시 해당 상태 삭제로 변경경
-    //     if(colDef.field == "DELETE"){
+    //     // delete 선택시 해당 상태 삭제로 변경경
+    //     if(colDef.field == "delete"){
     //         if(newValue == true){
-    //             const updatedData = { ...event.data, "STATUS": "D" }; // b 컬럼의 값을 변경
+    //             const updatedData = { ...event.data, "status": "D" }; // b 컬럼의 값을 변경
     //             const rowNode = gridApi.current.getRowNode(event.node.id); // 업데이트할 행 노드를 찾아서 데이터 업데이트
     //             rowNode.setData(updatedData);     
     //             gridApi.current.refreshCells({ rowNodes: [rowNode], force: true }); // 변경된 셀 리렌더링
     //             }else if(newValue == false){
-    //                 const updatedData = { ...event.data, "STATUS": null }; // b 컬럼의 값을 변경
+    //                 const updatedData = { ...event.data, "status": null }; // b 컬럼의 값을 변경
     //                 const rowNode = gridApi.current.getRowNode(event.node.id); // 업데이트할 행 노드를 찾아서 데이터 업데이트
     //                 rowNode.setData(updatedData);
     //                 gridApi.current.refreshCells({ rowNodes: [rowNode], force: true }); // 변경된 셀 리렌더링
     //                 }
-    //     }else if(colDef.field != "STATUS" && event.data.STATUS != 'I'){
-    //         console.log("event.data.STATUS" + event.data.STATUS);
-    //         const updatedData = { ...event.data, "STATUS": "U" }; // b 컬럼의 값을 변경
+    //     }else if(colDef.field != "status" && event.data.status != 'I'){
+    //         console.log("event.data.status" + event.data.status);
+    //         const updatedData = { ...event.data, "status": "U" }; // b 컬럼의 값을 변경
     //         const rowNode = gridApi.current.getRowNode(event.node.id); // 업데이트할 행 노드를 찾아서 데이터 업데이트
     //         rowNode.setData(updatedData);     
     //         gridApi.current.refreshCells({ rowNodes: [rowNode], force: true }); // 변경된 셀 리렌더링
@@ -167,19 +168,19 @@ const About = () => {
 
       const onCellValueChanged = (event) => {
         const { oldValue, newValue, data, colDef } = event;
-        console.log(`컬럼: ${colDef.field}, 변경 전 값: ${oldValue}, 변경 후 값: ${newValue}, data.id: ${data.DELETE}`);
+        console.log(`컬럼: ${colDef.field}, 변경 전 값: ${oldValue}, 변경 후 값: ${newValue}, data.id: ${data.delete}`);
         
         // 전체 rowData를 한 번에 갱신 (기존 rowData와 변경된 값만 반영)
         setRowData((prevRowData) => {
             return prevRowData.map((row) => {
-                if (row.NURSE_ID === data.NURSE_ID) {
-                    // DELETE 선택 시 상태 변경
-                    if (colDef.field === "DELETE") {
-                        return { ...row, "DELETE": newValue, "STATUS": newValue ? "D" : null };
+                if (row.nurse_id === data.nurse_id) {
+                    // delete 선택 시 상태 변경
+                    if (colDef.field === "delete") {
+                        return { ...row, "delete": newValue, "status": newValue ? "D" : null };
                     } 
-                    // DELETE가 아니고 STATUS가 "I"가 아닌 경우
-                    else if (colDef.field !== "STATUS" && data.STATUS !== 'I') {
-                        return { ...row, [colDef.field]: newValue, "STATUS": "U" };
+                    // delete가 아니고 status가 "I"가 아닌 경우
+                    else if (colDef.field !== "status" && data.status !== 'I') {
+                        return { ...row, [colDef.field]: newValue, "status": "U" };
                     }
                 }
                 return row; // 나머지 행은 그대로
