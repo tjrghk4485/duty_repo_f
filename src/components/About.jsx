@@ -108,11 +108,16 @@ const About = () => {
   const sendDataToServer = async () => {
     // gridApi가 초기화되었을 때만 호출
     if (gridApi.current) {
-        const selectedData = gridApi.current.getSelectedRows();  // 선택된 데이터 가져오기
-        console.log("selectedData =", selectedData);
+        // const selectedData = gridApi.current.getSelectedRows();  // 선택된 데이터 가져오기
+        // console.log("selectedData =", selectedData);
+        const allData = [];
+        gridApi.current.forEachNode((node) => {
+            allData.push(node.data); // 각 행의 데이터를 배열에 추가
+        });
         
+        console.log("전체 데이터:", allData);
         try {
-            const response = await axios.post('http://localhost:8080/bm/nurse/mod', selectedData);
+            const response = await axios.post('http://localhost:8080/bm/nurse/mod', allData);
             console.log('서버 응답:', response.data);
         } catch (error) {
             console.error('서버에 데이터 전송 중 오류:', error);
