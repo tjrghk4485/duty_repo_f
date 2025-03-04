@@ -119,9 +119,11 @@ const About = () => {
         console.log("전체 데이터:", allData);
         try {
             const response = await axios.post('http://localhost:8080/bm/nurse/mod', allData);
-            console.log('서버 응답:', response.data);
+            console.log('서버 응답:', response.data.output_msg);
+            alert('서버 응답:' + response.data.output_msg);
         } catch (error) {
             console.error('서버에 데이터 전송 중 오류:', error);
+            alert('서버 에러응답:' + response.data.output_msg);
         }
     } else {
         console.log("gridApi가 초기화되지 않았습니다.");
