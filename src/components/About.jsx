@@ -90,8 +90,8 @@ const About = () => {
         { headerName: "사용자", field: "parent_id", editable: true },
         { headerName: "간호사번호", field: "nurse_id", editable: true },
         { headerName: "이름", field: "nurse_nm", editable: true },
-        { headerName: "근무시작일", field: "start_date", editable: true },
-        { headerName: "사용여부", field: "use_yn", editable: true }
+        { headerName: "근무시작일", field: "start_date", editable: true }//,
+        //{ headerName: "사용여부", field: "use_yn", editable: true }
     ];
     //===============================잡기능==============================================//
     const addRow = () => {

@@ -14,147 +14,9 @@ import { AllCommunityModule } from 'ag-grid-community';
 const News = () => {
   const gridApi = useRef(null);
   const columnApi = useRef(null);
-  const [rowData, setRowData] = useState([
-    // {
-    //   "name": "test1",
-    //   "day_1": "D",
-    //   "day_2": "D",
-    //   "day_3": "D",
-    //   "day_4": "D",
-    //   "day_5": "D",
-    //   "day_6": "D",
-    //   "day_7": "D",
-    //   "day_8": "D",
-    //   "day_9": "D",
-    //   "day_10": "D",
-    //   "day_11": "D",
-    //   "day_12": "D",
-    //   "day_13": "D",
-    //   "day_14": "D",
-    //   "day_15": "D",
-    //   "day_16": "D",
-    //   "day_17": "D",
-    //   "day_18": "D",
-    //   "day_19": "D",
-    //   "day_20": "D",
-    //   "day_21": "D",
-    //   "day_22": "D",
-    //   "day_23": "D",
-    //   "day_24": "D",
-    //   "day_25": "D",
-    //   "day_26": "D",
-    //   "day_27": "D",
-    //   "day_28": "D",
-    //   "day_29": "D",
-    //   "day_30": "D",
-    //   "day_31": 1
-    // },
-    // {
-    //   "name": "test2",
-    //   "day_1": "D",
-    //   "day_2": "D",
-    //   "day_3": "D",
-    //   "day_4": "D",
-    //   "day_5": "D",
-    //   "day_6": "D",
-    //   "day_7": "D",
-    //   "day_8": "D",
-    //   "day_9": "D",
-    //   "day_10": "D",
-    //   "day_11": "D",
-    //   "day_12": "D",
-    //   "day_13": "D",
-    //   "day_14": "D",
-    //   "day_15": "D",
-    //   "day_16": "D",
-    //   "day_17": "D",
-    //   "day_18": "D",
-    //   "day_19": "D",
-    //   "day_20": "D",
-    //   "day_21": "D",
-    //   "day_22": "D",
-    //   "day_23": "D",
-    //   "day_24": "D",
-    //   "day_25": "D",
-    //   "day_26": "D",
-    //   "day_27": "D",
-    //   "day_28": "D",
-    //   "day_29": "D",
-    //   "day_30": "D",
-    //   "day_31": "D"
-    // },
-    // {
-    //   "name": "test3",
-    //   "day_1": "D",
-    //   "day_2": "D",
-    //   "day_3": "D",
-    //   "day_4": "D",
-    //   "day_5": "D",
-    //   "day_6": "D",
-    //   "day_7": "D",
-    //   "day_8": "D",
-    //   "day_9": "D",
-    //   "day_10": "D",
-    //   "day_11": "D",
-    //   "day_12": "D",
-    //   "day_13": "D",
-    //   "day_14": "D",
-    //   "day_15": "D",
-    //   "day_16": "D",
-    //   "day_17": "D",
-    //   "day_18": "D",
-    //   "day_19": "D",
-    //   "day_20": "D",
-    //   "day_21": "D",
-    //   "day_22": "D",
-    //   "day_23": "D",
-    //   "day_24": "D",
-    //   "day_25": "D",
-    //   "day_26": "D",
-    //   "day_27": "D",
-    //   "day_28": "D",
-    //   "day_29": "D",
-    //   "day_30": "D",
-    //   "day_31": "D"
-    // },
-    // {
-    //   "name": "test4",
-    //   "day_1": "D",
-    //   "day_2": "D",
-    //   "day_3": "D",
-    //   "day_4": "D",
-    //   "day_5": "D",
-    //   "day_6": "D",
-    //   "day_7": "D",
-    //   "day_8": "D",
-    //   "day_9": "D",
-    //   "day_10": "D",
-    //   "day_11": "D",
-    //   "day_12": "D",
-    //   "day_13": "D",
-    //   "day_14": "D",
-    //   "day_15": "D",
-    //   "day_16": "D",
-    //   "day_17": "D",
-    //   "day_18": "D",
-    //   "day_19": "D",
-    //   "day_20": "D",
-    //   "day_21": "D",
-    //   "day_22": "D",
-    //   "day_23": "D",
-    //   "day_24": "D",
-    //   "day_25": "D",
-    //   "day_26": "D",
-    //   "day_27": "D",
-    //   "day_28": "D",
-    //   "day_29": "D",
-    //   "day_30": "D",
-    //   "day_31": "D"
-    // }
-  ]
-  );
+  const [rowData, setRowData] = useState([]);
   const [columnDefs, setColumnDefs] = useState([
-        { headerName: "name", field: "name" ,width:70}
+        { headerName: "name", field: "name" ,width:90}
     ]);
     
   const gridRef = useRef();
@@ -167,7 +29,12 @@ const News = () => {
 
     const dateHeaders = [];
     for (let day = 1; day <= lastDay; day++) {
-        dateHeaders.push({ headerName: day.toString(), field: `${day}`,editable: true ,width:45 });
+        dateHeaders.push({ headerName: day.toString(), field: `${day}`,editable: false ,width:45 ,cellStyle: (params) => {
+          if (params.value === 'D') { return { color:'rgb(91, 177, 73)' }; } 
+          else if (params.value === 'E') { return {color:'rgb(132, 161, 204)' }; }
+          else if (params.value === 'N') { return {color:'rgb(149, 64, 199)' }; }
+          else if (params.value === 'O') { return { color:'rgb(138, 136, 134)' }; }
+          return null;}});
     }
     return dateHeaders;
 };
@@ -259,12 +126,11 @@ const sendDataToServer = async () => {
 };
 
   const onCellKeyDown = (event) => {
-    const selectedCell = gridApi.getFocusedCell(); 
-    const rowNode = gridApi.getDisplayedRowAtIndex(selectedCell.rowIndex);
-
+    const selectedCell = gridApi.current.getFocusedCell(); 
+    const rowNode = gridApi.current.getDisplayedRowAtIndex(selectedCell.rowIndex);
+    console.log("event.event.code=" + event.event.code);
     if(event.event.code =='KeyD'){
       rowNode.setDataValue(selectedCell.column.getColId(), 'D');
-      gridApi.getCellStyle(selectedCell.rowIndex, selectedCell.column.getColId(), { color: 'red' });
     }
     else if(event.event.code =='KeyE'){
       rowNode.setDataValue(selectedCell.column.getColId(), 'E');
@@ -275,11 +141,36 @@ const sendDataToServer = async () => {
     else if(event.event.code =='KeyN'){
       rowNode.setDataValue(selectedCell.column.getColId(), 'N');
     }
+    
   };
   
+    // 셀 값이 변경되었을 때 호출되는 이벤트
+    const onCellValueChanged = (event) => {
+      const newValue = event.newValue; // 새로 변경된 값
+      const rowNode = event.node; // 해당 행의 rowNode
+      console.log("eventnode=" + CircularJSON.stringify(event.node))
+      let newColor = '';
+    
+      // 새로 변경된 값에 따라 색상 결정
+      if (newValue === 'D') {
+        newColor = 'red'; // D일 경우 빨간색
+      } else if (newValue === 'E') {
+        newColor = 'blue'; // E일 경우 파란색
+      } else if (newValue === 'O') {
+        newColor = 'green'; // O일 경우 초록색
+      } else if (newValue === 'N') {
+        newColor = 'purple'; // N일 경우 보라색
+      } else {
+        newColor = 'black'; // 그 외의 값은 기본 색상
+      }
+    
+      // 색상을 변경
+      gridApi.current.setRowStyle({ color: newColor });
+    };
 
+    
 
-  
+    
     return (
       
       <div style={{ width: '100%', height: '600px' }} className="ag-theme-alpine">
@@ -295,6 +186,7 @@ const sendDataToServer = async () => {
           onGridReady={onGridReady}
           modules={[AllCommunityModule]}
           onCellKeyDown={onCellKeyDown} // 키 이벤트 처리
+          onCellValueChanged = {onCellValueChanged}
       />
   </div>
     );
