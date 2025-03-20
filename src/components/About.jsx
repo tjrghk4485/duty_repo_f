@@ -51,22 +51,23 @@ const About = () => {
         columnApi.current = params.columnApi;
         gridApi.current.sizeColumnsToFit();
 
-        axios.get('http://localhost:8080/bm/nurse/sel',{
-            params: {
-                parent_id: '100'
-            }
-        })
-        .then(response => {
-            const modifiedData = response.data.map(item => ({
-                ...item,
-                delete: false
-            }));
-            setRowData(modifiedData);
-        })
-      .catch(error => alert('Error:', error));
-    
+    //     axios.get('http://localhost:8080/bm/nurse/sel',{
+    //         params: {
+    //             parent_id: '100'
+    //         }
+    //     })
+    //     .then(response => {
+    //         const modifiedData = response.data.map(item => ({
+    //             ...item,
+    //             delete: false
+    //         }));
+    //         setRowData(modifiedData);
+    //     })
+    //   .catch(error => alert('Error:', error));
+    selectRow();
     const allData = gridApi.current.getRenderedNodes().map(node => node.data);
     console.log("테이블데이터 =", allData);
+    getRowData();
     };
 
     // 리사이즈 시 컬럼 크기 자동 조정
@@ -94,6 +95,7 @@ const About = () => {
     ];
     //===============================잡기능==============================================//
     const addRow = () => {
+        getRowData();
         const newItem = {  delete: false,
             parent_id: 'user123',
             status: 'I',
@@ -103,7 +105,34 @@ const About = () => {
         setRowData([...rowData, newItem]);
     };
 
+    const selectRow = () => {
+        axios.get('http://localhost:8080/nurse/sel',{
+            params: {
+                parent_id: '100'
+            }
+        })
+        .then(response => {
+            const modifiedData = response.data.map(item => ({
+                ...item,
+                delete: false
+            }));
+            setRowData(modifiedData);
+        })
+      .catch(error => alert('Error:', error));
+    
+    const allData = gridApi.current.getRenderedNodes().map(node => node.data);
+    console.log("테이블데이터 =", allData);
+    };
 
+    const getRowData = () => {
+        
+          const rowData = [];
+          gridApi.current.forEachNode((node) => {
+            rowData.push(node.data);
+          });
+          console.log("rowData=" + JSON.stringify(rowData[0])); // 로우 데이터를 콘솔에 출력
+        
+      };
    
 
   const sendDataToServer = async () => {
@@ -113,14 +142,21 @@ const About = () => {
         // console.log("selectedData =", selectedData);
         const allData = [];
         gridApi.current.forEachNode((node) => {
-            allData.push(node.data); // 각 행의 데이터를 배열에 추가
+            if (node.data.status){
+                allData.push(node.data); // 각 행의 데이터를 배열에 추가
+            }
+            
         });
         
         console.log("전체 데이터:", allData);
         try {
-            const response = await axios.post('http://localhost:8080/bm/nurse/mod', allData);
+            const response = await axios.post('http://localhost:8080/nurse/mod', allData);
             console.log('서버 응답:', response.data.output_msg);
             alert('서버 응답:' + response.data.output_msg);
+            if(response.data.output_msg == '저장되었습니다'){
+                selectRow();
+            }
+            
         } catch (error) {
             console.error('서버에 데이터 전송 중 오류:', error);
             alert('서버 에러응답:' + response.data.output_msg);
