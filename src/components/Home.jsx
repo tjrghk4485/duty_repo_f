@@ -1,11 +1,18 @@
 import "./css/Menu.css"
+import KakaoLogin from "react-kakao-login";
 const Home = () => {
-    return (
-      <div className="content">
-        <h2>Hello, React!</h2>
-        <p>사이트에서 가장 먼저 보여지는 페이지입니다.</p>
-      </div>
-    );
-  };
-  
+  const Rest_api_key='b656293336f5e166383d543eb8f22357' //REST API KEY
+  const redirect_uri = 'https://localhost:3000' //Redirect URI
+  // oauth 요청 URL
+  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`
+  const handleLogin = ()=>{
+      window.location.href = kakaoURL
+  }
+  return(
+  <>
+  <button onClick={handleLogin}style={{color:'rgb(10, 10, 10)', background:'rgb(255, 251, 5)'}}>카카오 로그인</button>
+  </>
+  )
+
+}
   export default Home;
