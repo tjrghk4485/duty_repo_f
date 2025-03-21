@@ -7,6 +7,7 @@ import NoMatch from './components/NoMatch';
 import News from './components/News';
 import Menu from './components/Menu';
 import Header from './components/Header';
+import KakaoAuth from "./components/KakaoAuth";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Header/>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/auth/kakao" element={<KakaoAuth />} />
           <Route path="about" element={<About />} />
           <Route path="news" element={<News />} />
           <Route path="*" element={<NoMatch />} />
