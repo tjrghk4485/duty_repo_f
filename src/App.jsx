@@ -7,7 +7,7 @@ import NoMatch from './components/NoMatch';
 import News from './components/News';
 import Menu from './components/Menu';
 import Header from './components/Header';
-import KakaoAuth from "./components/KakaoAuth";
+import KakaoAuth from "./components/login/KakaoAuth";
 
 function App() {
   return (
