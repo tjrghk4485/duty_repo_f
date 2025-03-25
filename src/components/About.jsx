@@ -46,7 +46,7 @@ const About = () => {
     
 
     const onGridReady = (params) => {
-        
+        console.log("localStorage=" + localStorage.getItem("kakaoId"));
         gridApi.current = params.api;
         columnApi.current = params.columnApi;
         gridApi.current.sizeColumnsToFit();

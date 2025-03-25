@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const KakaoAuth = () => {
+const KakaoAuth = ({valueChk}) => {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -26,10 +26,14 @@ const KakaoAuth = () => {
 
             const data = await response.json();
             console.log("백엔드 응답:", data); // ✅ 회원 코드 및 JWT 확인
-
+            console.log("data.kakaoId:" + data.token.kakaoId);
+            console.log("data.token:" + data.token);
             if (data.token) {
-                localStorage.setItem("jwt", data.token); // 🔥 JWT 저장
-                navigate("/About"); // ✅ 로그인 성공 후 이동
+                localStorage.setItem("kakaoId", data.token.kakaoId); // 🔥 JWT 저장
+                localStorage.setItem("nickname", data.token.nickname);
+                localStorage.setItem("profile_image", data.token.profile_image);
+                valueChk();
+                navigate("/about"); // ✅ 로그인 성공 후 이동
             } else {
                 console.error("로그인 실패", data);
             }

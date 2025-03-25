@@ -1,0 +1,77 @@
+* {
+    box-sizing: border-box;
+    font-family: 'SUIT-Medium';
+}
+
+div h5 {
+    margin-bottom: 3px; 
+    color: rgb(107, 107, 107);
+}
+
+.loginForm {
+    width: 600px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 중앙 정렬 */
+    border: 5px solid rgb(163, 156, 231);
+}
+
+#domain {
+    font-size: 50px;
+    color: rgb(163, 156, 231); /* 색상 변경 */
+}
+
+
+h1#login_title {
+    margin-bottom: 50px; /* 로그인 글자와 아래 요소 간격 */
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.userId, .password {
+    width: 300px;
+    height: 40px;
+    border : 1px solid rgb(163, 156, 231);
+    border-radius:5px;
+    padding: 0 10px;
+    margin-bottom: 10px;
+}
+
+#loginBut {
+    background-color: rgb(163, 156, 231);
+    color : white;
+    border : none;
+    border-radius: 5px;
+    font-size: 17px;
+    height: 50px;
+    width: 300px;
+    margin : 20px 0 10px 0;
+}
+
+#loginBut:hover {
+    background-color: #f8d1dd; /* 마우스 호버 시 색상 변경 */
+}
+
+.link a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: rgb(107, 107, 107); /* 색상 변경 */
+}
+
+.link a:hover {
+    color: #f8d1dd; /* 마우스 호버 시 색상 변경 */
+}
+body {
+    background-color: #ffffff; /* 흰색 배경 */
+    margin: 0; /* 기본 여백 제거 */
+    font-family: Arial, sans-serif; /* 기본 폰트 설정 */
+}
