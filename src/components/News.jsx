@@ -67,7 +67,7 @@ const News = () => {
   };
 
   const selectRow = () => {
-    axios.get('http://localhost:8080/schedule/sel',{
+    axios.get('http://localhost:3001/schedule/sel',{
         params: {
           dateData: '202503'
         }
@@ -112,7 +112,7 @@ const sendDataToServer = async () => {
       console.log("수정 후 전체 데이터:",formattedData);
 
       try {
-          const response = await axios.post('http://localhost:8080/schedule/mod', formattedData);
+          const response = await axios.post('http://localhost:3001/schedule/mod', formattedData);
           console.log('서버 응답:', response.data.output_msg);
           alert('서버 응답:' + response.data.output_msg);
           selectRow();

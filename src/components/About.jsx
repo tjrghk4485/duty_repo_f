@@ -51,7 +51,7 @@ const About = () => {
         columnApi.current = params.columnApi;
         gridApi.current.sizeColumnsToFit();
 
-    //     axios.get('http://localhost:8080/bm/nurse/sel',{
+    //     axios.get('http://localhost:3001/bm/nurse/sel',{
     //         params: {
     //             parent_id: '100'
     //         }
@@ -106,7 +106,7 @@ const About = () => {
     };
 
     const selectRow = () => {
-        axios.get('http://localhost:8080/nurse/sel',{
+        axios.get('http://localhost:3001/nurse/sel',{
             params: {
                 parent_id: '100'
             }
@@ -150,7 +150,7 @@ const About = () => {
         
         console.log("전체 데이터:", allData);
         try {
-            const response = await axios.post('http://localhost:8080/nurse/mod', allData);
+            const response = await axios.post('http://localhost:3001/nurse/mod', allData);
             console.log('서버 응답:', response.data.output_msg);
             alert('서버 응답:' + response.data.output_msg);
             if(response.data.output_msg == '저장되었습니다'){

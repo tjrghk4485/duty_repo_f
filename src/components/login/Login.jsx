@@ -16,10 +16,10 @@ const Login = () => {
 
         return (
             <div>
-                <div id="domain" ></div>
+                <div id="domain" >🇩🇺🇹🇾</div>
                 <form className="loginForm">
                     <div>
-                        <h1 id='login_title'>로그인</h1>
+                        <h1 id='login_title'>LOGIN</h1>
                     </div>
                     <div>
                         <div className="input">
