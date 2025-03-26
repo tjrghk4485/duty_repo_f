@@ -80,7 +80,6 @@ const NurseSchedule = () => {
   .catch(error => alert('Error:', error));
 
 const allData = gridApi.current.getRenderedNodes().map(node => node.data);
-console.log("테이블데이터 =", CircularJSON.stringify(allData));
 };
 
 const sendDataToServer = async () => {
@@ -132,16 +131,22 @@ const sendDataToServer = async () => {
     console.log("event.event.code=" + event.event.code);
     if(event.event.code =='KeyD'){
       rowNode.setDataValue(selectedCell.column.getColId(), 'D');
+      gridApi.current.tabToNextCell(event);
     }
     else if(event.event.code =='KeyE'){
       rowNode.setDataValue(selectedCell.column.getColId(), 'E');
+      gridApi.current.tabToNextCell(event);
     }
     else if(event.event.code =='KeyO'){
       rowNode.setDataValue(selectedCell.column.getColId(), 'O');
+      gridApi.current.tabToNextCell(event);
     }
     else if(event.event.code =='KeyN'){
       rowNode.setDataValue(selectedCell.column.getColId(), 'N');
+      gridApi.current.tabToNextCell(event);
     }
+    
+
     
   };
   
@@ -179,6 +184,7 @@ const sendDataToServer = async () => {
                 Export Data
             </button>
             </div>
+            <div className="ag-theme-alpine" style={{ height: 400, width: '1500px' }}>
       <AgGridReact
           ref={gridRef}
           columnDefs={columnDefs}
@@ -188,6 +194,7 @@ const sendDataToServer = async () => {
           onCellKeyDown={onCellKeyDown} // 키 이벤트 처리
           onCellValueChanged = {onCellValueChanged}
       />
+      </div>
   </div>
     );
   };

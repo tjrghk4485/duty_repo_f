@@ -1,6 +1,6 @@
 import React from "react";
 import '../css/Login.css';
-
+import { NavLink } from "react-router-dom";
 
 const Login = () => {
 
@@ -25,6 +25,7 @@ const Login = () => {
                         <div className="input">
                             <input type="text" className="userId" id="userId" placeholder="아이디" autoFocus></input>
                             <input type="password" className="password" id="password" placeholder="비밀번호"></input>
+                            <NavLink to="/register">회원가입</NavLink>
                             <button id="loginBut">Login</button>
                             <button id="loginBut" onClick={handleLogin}style={{color:'rgb(10, 10, 10)', background:'rgb(236, 233, 31)'}}>카카오 로그인</button>
                         </div>

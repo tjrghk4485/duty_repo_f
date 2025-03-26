@@ -10,6 +10,7 @@ import Menu from './components/Menu';
 import Header from './components/Header';
 import KakaoAuth from "./components/login/KakaoAuth";
 import Login from "./components/login/Login";
+import Register from "./components/login/Register";
 
 function App() {
   const navigate = useNavigate(); 
@@ -36,6 +37,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/auth/kakao" element={<KakaoAuth valueChk={() => setIsLoggedIn(true)}/>} />
+          <Route path="/register" element={<Register valueChk={() => setIsLoggedIn(true)}/>} />
           <Route path="*" element={<Login setIsLoggedIn={setIsLoggedIn} />} /> {/* 다른 URL도 로그인으로 이동 */}
         </Routes>
       ) : (

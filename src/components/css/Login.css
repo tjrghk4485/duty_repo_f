@@ -27,6 +27,7 @@ div h5 {
     margin-top: 100px;
     font-size: 100px;
     color: rgb(163, 156, 231); /* 색상 변경 */
+    text-shadow: 2px 2px 2px rgb(41, 65, 145);
 }
 .domain{
     width: 300px;

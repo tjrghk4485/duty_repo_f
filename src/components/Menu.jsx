@@ -25,7 +25,7 @@ const Menu = () => {
             <Link to="/nurseStatus" className="sidebar-link">간호사정보</Link>
           </li>
           <li>
-            <Link to="/news" className="sidebar-link">듀티표작성</Link>
+            <Link to="/nurseSchedule" className="sidebar-link">듀티표작성</Link>
           </li>
         </ul>
         

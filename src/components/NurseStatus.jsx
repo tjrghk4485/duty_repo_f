@@ -11,37 +11,7 @@ import { AllCommunityModule } from 'ag-grid-community';
 const NurseStatus = () => {
     const gridApi = useRef(null);
     const columnApi = useRef(null);
-    const [rowData, setRowData] = useState([
-    //     {
-    //     delete: false,
-    //     parent_id: 'user123',
-    //     status: null,
-    //     nurse_id: 'NUR001',
-    //     nurse_nm: '홍길동',
-    //     USE_YN: true
-    // },
-    // {
-    //     delete: false,
-    //     parent_id: 'user456',
-    //     status: null,
-    //     nurse_id: 'NUR002',
-    //     nurse_nm: '김철수',
-    //     USE_YN: true
-    // },
-    // {
-    //     delete: false,
-    //     parent_id: 'user789',
-    //     status: null,
-    //     nurse_id: 'NUR003',
-    //     nurse_nm: '이영희',
-    //     USE_YN: false
-    // }
-]); // useState로 수정 
-    
-    
-    
-
-  
+    const [rowData, setRowData] = useState([]); // useState로 수정 
     
     
 
