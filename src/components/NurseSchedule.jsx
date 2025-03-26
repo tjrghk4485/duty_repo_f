@@ -11,12 +11,13 @@ import CircularJSON from 'circular-json';
 // AG-Grid에서 필요한 모듈을 import
 import { AllCommunityModule } from 'ag-grid-community';
 
-const News = () => {
+const NurseSchedule = () => {
   const gridApi = useRef(null);
   const columnApi = useRef(null);
   const [rowData, setRowData] = useState([]);
   const [columnDefs, setColumnDefs] = useState([
-        { headerName: "name", field: "name" ,width:90}
+        { headerName: "name", field: "name" ,width:90},
+        { headerName: "nurse_id", field: "nurse_id" ,width:90,hide: true}
     ]);
     
   const gridRef = useRef();
@@ -96,7 +97,7 @@ const sendDataToServer = async () => {
 
       const formattedData = allData.flatMap(item => {
         const parent_id = item.parent_id; // parent_id를 work_date로 사용
-        const nurse_id = item.name; // name을 nurse_id로 사용
+        const nurse_id = item.nurse_id; // name을 nurse_id로 사용
       
         return Object.keys(item)
           .filter(key => !isNaN(key)) // 숫자 키(1~31)만 필터링
@@ -148,7 +149,6 @@ const sendDataToServer = async () => {
     const onCellValueChanged = (event) => {
       const newValue = event.newValue; // 새로 변경된 값
       const rowNode = event.node; // 해당 행의 rowNode
-      console.log("eventnode=" + CircularJSON.stringify(event.node))
       let newColor = '';
     
       // 새로 변경된 값에 따라 색상 결정
@@ -192,5 +192,5 @@ const sendDataToServer = async () => {
     );
   };
   
-  export default News;
+  export default NurseSchedule;
   

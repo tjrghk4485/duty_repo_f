@@ -1,5 +1,5 @@
 import "./css/Menu.css"
-import KakaoLogin from "react-kakao-login";
+
 const Home = ({valueChk}) => { 
   const Rest_api_key='b656293336f5e166383d543eb8f22357' //REST API KEY
   const redirect_uri = 'http://localhost:3000/auth/kakao' //Redirect URI
