@@ -11,10 +11,10 @@ function Header() {
     case '/':
       pageTitle = '간호사정보';
       break;
-    case '/about':
-      pageTitle = '설정';
+    case '/nurseStatus':
+      pageTitle = '간호사정보';
       break;
-    case '/news':
+    case '/nurseSchedule':
       pageTitle = '듀티표작성';
       break;
     default:

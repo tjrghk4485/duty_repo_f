@@ -18,7 +18,7 @@ const KakaoAuth = ({valueChk}) => {
 
     const getAccessToken = async (code) => {
         try {
-            const response = await fetch("http://localhost:3001/auth/kakao", {
+            const response = await fetch("http://localhost:8080/auth/kakao", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ code: code }),
@@ -33,7 +33,7 @@ const KakaoAuth = ({valueChk}) => {
                 localStorage.setItem("nickname", data.token.nickname);
                 localStorage.setItem("profile_image", data.token.profile_image);
                 valueChk();
-                navigate("/about"); // ✅ 로그인 성공 후 이동
+                navigate("/nurseStatus"); // ✅ 로그인 성공 후 이동
             } else {
                 console.error("로그인 실패", data);
             }

@@ -19,10 +19,10 @@ const Menu = () => {
       <nav>
         <ul>
           <li>
-            <Link to="/" className="sidebar-link">간호사정보</Link>
+            <Link to="/" className="sidebar-link">임시로그아웃</Link>
           </li>
           <li>
-            <Link to="/about" className="sidebar-link">설정</Link>
+            <Link to="/nurseStatus" className="sidebar-link">간호사정보</Link>
           </li>
           <li>
             <Link to="/news" className="sidebar-link">듀티표작성</Link>

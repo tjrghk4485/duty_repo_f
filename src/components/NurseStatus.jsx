@@ -8,7 +8,7 @@ import axios from 'axios';
 // AG-Grid에서 필요한 모듈을 import
 import { AllCommunityModule } from 'ag-grid-community';
 
-const About = () => {
+const NurseStatus = () => {
     const gridApi = useRef(null);
     const columnApi = useRef(null);
     const [rowData, setRowData] = useState([
@@ -230,7 +230,7 @@ const About = () => {
    //=================================그리드이벤트=========================================//
     return (
         <div className="main-content">
-            <h2>About Page with AG-Grid</h2>
+            <h2>NurseStatus Page with AG-Grid</h2>
             <div className="absolute top-0 right-0">
             <button onClick={sendDataToServer} className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition">
                 Export Data
@@ -255,4 +255,4 @@ const About = () => {
     );
 }
 
-export default About;
+export default NurseStatus;

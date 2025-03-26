@@ -1,11 +1,11 @@
 
 import './components/css/Menu.css';
-import About from './components/About';
+import NurseStatus from './components/NurseStatus';
 import Home from './components/Home';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import NoMatch from './components/NoMatch';
-import News from './components/News';
+import NurseSchedule from './components/NurseSchedule';
 import Menu from './components/Menu';
 import Header from './components/Header';
 import KakaoAuth from "./components/login/KakaoAuth";
@@ -47,8 +47,8 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/auth/kakao" element={<KakaoAuth />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/news" element={<News />} />
+              <Route path="/nurseStatus" element={<NurseStatus />} />
+              <Route path="/nurseSchedule" element={<NurseSchedule />} />
               <Route path="*" element={<NoMatch />} />
             </Routes>
           </div>
