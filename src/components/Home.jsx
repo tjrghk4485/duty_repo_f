@@ -10,6 +10,8 @@ const Home = ({valueChk}) => {
   }
   const handleLogout = ()=>{
     localStorage.removeItem("kakaoId");
+    localStorage.removeItem("nickname");
+    localStorage.removeItem("profile_image");
     console.log("localStorage:" + localStorage.getItem("kakaoId"));
     valueChk();
     

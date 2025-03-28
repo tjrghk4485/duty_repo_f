@@ -19,6 +19,7 @@ const NurseSchedule = () => {
         { headerName: "name", field: "name" ,width:90},
         { headerName: "nurse_id", field: "nurse_id" ,width:90,hide: true}
     ]);
+  const [month,setMonth] = useState();
     
   const gridRef = useRef();
 
@@ -177,14 +178,16 @@ const sendDataToServer = async () => {
 
     
     return (
-      
+      <div className="main-content">
+        <h2>{month}듀티표작성</h2>
       <div style={{ width: '100%', height: '600px' }} className="ag-theme-alpine">
       <div className="absolute top-0 right-0">
-            <button onClick={sendDataToServer} className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition">
-                Export Data
+            <button id='defBut' onClick={sendDataToServer} style={{ position: 'relative',
+          left: `1395px`, }}>
+                저장
             </button>
             </div>
-            <div className="ag-theme-alpine" style={{ height: 400, width: '1500px' }}>
+            <div className="ag-theme-alpine" style={{ height: 400, width: '1500px', border: '30px'}}>
       <AgGridReact
           ref={gridRef}
           columnDefs={columnDefs}
@@ -195,6 +198,7 @@ const sendDataToServer = async () => {
           onCellValueChanged = {onCellValueChanged}
       />
       </div>
+  </div>
   </div>
     );
   };

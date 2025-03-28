@@ -200,14 +200,14 @@ const NurseStatus = () => {
    //=================================그리드이벤트=========================================//
     return (
         <div className="main-content">
-            <h2>NurseStatus Page with AG-Grid</h2>
+            <h2>간호사정보</h2>
             <div className="absolute top-0 right-0">
-            <button onClick={sendDataToServer} className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition">
-                Export Data
+            <button id='defBut' onClick={sendDataToServer} style={{ position: 'relative',left: `990px`, }}>
+                저장
             </button>
-            <button onClick={addRow}>행 추가</button>
+            <button id='defBut' onClick={addRow}style={{ position: 'relative',left: `990px`, }}>행 추가</button>
         </div>
-            <div className="ag-theme-alpine" style={{ height: 500, width: '1200px' }}>
+            <div className="ag-theme-alpine" style={{ height: 200, width: '1200px' }}>
                 <AgGridReact
                     onGridReady={onGridReady}
                     columnDefs={columns}

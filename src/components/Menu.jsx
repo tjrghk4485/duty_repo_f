@@ -1,11 +1,17 @@
 import { Link, Outlet } from "react-router-dom";
 import "./css/Menu.css"
 import { useState, useEffect } from "react";
-
-const Menu = () => {
+import houseIcon from '../assets/house.svg';  // 이미지 파일을 import
+import nurseIcon from '../assets/hospital.svg';  // 이미지 파일을 import
+import tableIcon from '../assets/table.svg';  // 이미지 파일을 import
+import dutyIcon from '../assets/Duty.svg';  // 이미지 파일을 import
+import outIcon from '../assets/box-arrow-left.svg';  // 이미지 파일을 import
+import domainIcon from '../assets/domain.svg';  // 이미지 파일을 import
+import { useNavigate } from "react-router-dom";
+const Menu = ({valueChk}) => {
   const [nickname, setNickname] = useState("");
   const [profileImage, setProfileImage] = useState("");
-
+  const navigate = useNavigate();
   useEffect(() => {
     const storedNickname = localStorage.getItem("nickname");
     const storedProfileImage = localStorage.getItem("profile_image");
@@ -14,30 +20,98 @@ const Menu = () => {
     if (storedProfileImage) setProfileImage(storedProfileImage);
   }, []);
 
+   // 드롭다운이 열렸는지 여부를 관리
+   const [isOpen, setIsOpen] = useState(false);
+
+   // 드롭다운 열고 닫기
+   const toggleDropdown = () => {
+     setIsOpen(!isOpen);
+   };
+
+   const handleLogout = ()=>{
+    localStorage.removeItem("kakaoId");
+    localStorage.removeItem("nickname");
+    localStorage.removeItem("profile_image");
+    console.log("localStorage:" + localStorage.getItem("kakaoId"));
+    valueChk();
+    navigate("/login");
+    
+}
+
   return (
     <div className="sidebar" >
+      <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',  // 수평 중앙 정렬
+      }}
+    >
+      <img src={domainIcon} width="150" height="100" alt="Domain Icon" />
+    </div>
       <nav>
-        <ul>
-          <li>
-            <Link to="/" className="sidebar-link">임시로그아웃</Link>
-          </li>
-          <li>
-            <Link to="/nurseStatus" className="sidebar-link">간호사정보</Link>
-          </li>
-          <li>
-            <Link to="/nurseSchedule" className="sidebar-link">듀티표작성</Link>
-          </li>
+                 
+            <Link to="/" className="sidebar-link"><img src= {houseIcon} 
+            alt="임시로그아웃" width="20"height="20" className="me-2" />
+            임시로그아웃</Link>
+          
+            <Link to="/nurseStatus" className="sidebar-link"><img src= {nurseIcon}
+            alt="간호사정보" width="20"height="20" className="me-2" />
+            간호사정보</Link>
+          
+            <Link to="/nurseSchedule" className="sidebar-link"><img src= {tableIcon}
+            alt="듀티표작성" width="20"height="20" className="me-2" />
+            듀티표작성</Link>
+         
+       </nav>
+      <div style={{
+            position: 'relative', top: '560px',
+            bottom: '0', // 부모 div 맨 밑으로 배치
+            left: '0', // 왼쪽에 배치
+            marginTop: '5px', // 추가적인 공간을 위해 옵션으로 설정
+            
+          }}>
+      <a
+        href="#"
+        className="d-flex align-items-center link-dark text-decoration-none "
+        onClick={(e) => {
+          e.preventDefault(); // 링크 클릭 시 페이지 리로드 방지
+          toggleDropdown(); // 드롭다운 토글
+        }}
+        aria-expanded={isOpen ? 'true' : 'false'}
+      >
+        <img
+          src= {profileImage}
+          alt=""
+          width="32"
+          height="32"
+          className="rounded-circle me-2"
+        />
+        <a>{nickname}님,반갑습니다.</a>       
+      </a>
+
+      {/* 드롭다운 메뉴 */}
+      {isOpen && (
+        <ul className="dropup-menu text-small shadow show">
+          {/* <a className="dropdown-item" href="#">New project...</a>
+          <a className="dropdown-item" href="#">Settings</a>
+          <a className="dropdown-item" href="#">Profile</a>
+          <hr className="dropdown-divider" /> */}
+          <a className="dropdown-item" href="#">로그아웃</a>
         </ul>
-        
-      </nav>
-    <div>
-      <h2>{nickname} </h2>
-      <h2>어서오고.</h2>
-      {profileImage && <img src={profileImage} alt="프로필 이미지" width={50} />}
+      )}
     </div>
-      <hr />
-      <Outlet />
-    </div>
+    <div style={{
+            position: 'absolute',
+            bottom: '0', // 부모 div 맨 밑으로 배치
+            right: '10px',
+            marginTop: '5px',  // 추가적인 공간을 위해 옵션으로 설정
+          }}><a href="#" onClick={handleLogout}><img src= {outIcon} 
+          alt="임시로그아웃" width="20"height="20" className="me-2" /> 로그아웃
+          </a>
+          </div>
+    
+  </div>
+    
   );
 };
 

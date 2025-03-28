@@ -4,23 +4,30 @@ import { NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import CircularJSON from 'circular-json';
-const Register = () => {
+import { useNavigate } from "react-router-dom";
+const Register = ({valueChk}) => {
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
     const [confirm, setConfirm] = useState('');
-    
+    const [user_nm, setuser_nm] = useState('');
     const [idError, setIdError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [confirmError, setConfirmError] = useState('');
-    
+    const navigate = useNavigate();
     const [isIdCheck, setIsIdCheck] = useState(false); // 중복 검사를 했는지 안했는지
     const [isIdAvailable, setIsIdAvailable] = useState(false); // 아이디 사용 가능한지 아닌지
 
     const onChangeIdHandler = (e) => {
         const idValue = e.target.value;
         setId(idValue);
+        console.log("id=" + id);
         idCheckHandler(idValue);
       }
+
+    const onChangeNikNameHandler = (e) => {
+        const user_nm = e.target.value;
+        setuser_nm(user_nm);
+    }
     
       const onChangePasswordHandler = (e) => {
         const { name, value } = e.target;
@@ -49,8 +56,8 @@ const Register = () => {
           const responseData = await axios.get('http://localhost:3001/user/chk', {params: {
             "id": id
         }});
-          CircularJSON.stringify("responseData:" + responseData);
-          if (responseData) {
+          console.log("responseData:" +responseData.data[0]);
+          if (!responseData.data[0]) {
             setIdError('사용 가능한 아이디입니다.');
             setIsIdCheck(true);
             setIsIdAvailable(true);
@@ -107,15 +114,23 @@ const Register = () => {
         const passwordCheckResult = passwordCheckHandler(password, confirm);
         if (passwordCheckResult) { setPasswordError(''); setConfirmError(''); }
         else return;
-    
-        try {
-          const responseData = await axios.get('http://localhost:3001/user/mod', {params: {
+        
+        const requestData = {
             "id": id,
             "password" : password,
-            "user_nm" : 'test'
-        }});
+            "user_nm" : user_nm
+        };
+        console.log("requestData=" + JSON.stringify(requestData));
+        try {
+          const responseData = await axios.post('http://localhost:3001/user/mod', {
+            "id": id,
+            "password" : password,
+            "user_nm" : user_nm
+        });
           if (responseData) {
-            localStorage.setItem("kakaoId", responseData.data.p_output_val);
+            console.log("responseData.data=" + JSON.stringify(responseData));
+            localStorage.setItem("kakaoId", id);
+            localStorage.setItem("kakaoId", user_nm);
             valueChk();
             navigate("/nurseStatus"); // ✅ 로그인 성공 후 이동
           } else {
@@ -148,6 +163,18 @@ const Register = () => {
                 maxLength={10}
               />
               {idError && <small className={isIdAvailable ? 'idAvailable' : ''}>{idError}</small>}
+              <label htmlFor='id'>닉네임</label>
+                            <input
+                onChange={onChangeNikNameHandler}
+                type="text"
+                id='user_nm'
+                name='user_nm'
+                value={user_nm}
+                placeholder='닉네임 입력'
+                theme='underLine'
+                maxLength={10}
+              />
+              
               <label htmlFor='id'>비밀번호</label>
                             <input onChange={onChangePasswordHandler}
                 type="password"

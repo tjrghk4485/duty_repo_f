@@ -11,9 +11,10 @@ import Header from './components/Header';
 import KakaoAuth from "./components/login/KakaoAuth";
 import Login from "./components/login/Login";
 import Register from "./components/login/Register";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
-  const navigate = useNavigate(); 
+  //const navigate = useNavigate(); 
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 저장
 
   // 📌 처음 렌더링될 때 localStorage에서 로그인 상태 확인
@@ -35,17 +36,18 @@ function App() {
       {!isLoggedIn ? (
         // 🚀 로그인 안 되어 있으면 로그인 화면만 표시
         <Routes>
-          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+          <Route path="/login" element={<Login valueChk={() => setIsLoggedIn(true)}/>} />
           <Route path="/auth/kakao" element={<KakaoAuth valueChk={() => setIsLoggedIn(true)}/>} />
           <Route path="/register" element={<Register valueChk={() => setIsLoggedIn(true)}/>} />
-          <Route path="*" element={<Login setIsLoggedIn={setIsLoggedIn} />} /> {/* 다른 URL도 로그인으로 이동 */}
+          <Route path="*" element={<Login valueChk={() => setIsLoggedIn(true)}/>} />
+          
         </Routes>
       ) : (
         // 🚀 로그인 후에는 기존 화면 (Menu + Header 포함)
         <div className="wrapper">
-          <Menu />
+          <Menu valueChk={() => setIsLoggedIn(false)}/>
           <div className="main-content">
-            <Header />
+            {/* <Header /> */}
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/auth/kakao" element={<KakaoAuth />} />
