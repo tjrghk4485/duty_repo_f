@@ -69,4 +69,31 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+
+  .customGrid {
+    width: 800px;
+    height: 400px;
+    background-color: rgb(163, 156, 231);
+    color: rgb(189, 65, 65);
+    border-radius: 20px;
+    box-shadow: 10px 30px 30px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    overflow: hidden;
+  }
+  
+  .customGrid .ag-header {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    color: rgb(22, 16, 16) !important;
+    border-radius: 20px 20px 0 0;
+  }
+  
+  .customGrid .ag-cell {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: rgb(12, 8, 8) !important;
+  }
+  
+  .customGrid .ag-row-selected {
+    background-color: rgba(255, 255, 255, 0.3) !important;
+  }
+  
 }
