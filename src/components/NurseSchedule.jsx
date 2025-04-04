@@ -71,7 +71,8 @@ const NurseSchedule = () => {
   const selectRow = () => {
     axios.get('http://localhost:3001/schedule/sel',{
         params: {
-          dateData: '202503'
+          parent_id: localStorage.getItem('userId'),
+          work_date: '202503'
         }
     })
     .then(response => {
@@ -82,6 +83,30 @@ const NurseSchedule = () => {
 
 const allData = gridApi.current.getRenderedNodes().map(node => node.data);
 };
+
+const deletAllData = async () => {
+  
+  if(!confirm('일정을 초기화 하시겠습니까?')) {
+    return;
+  }
+
+  try {
+    const response =  await axios.post('http://localhost:3001/schedule/delete', {
+      
+        parent_id: localStorage.getItem('userId'),
+        work_date: '202503'
+      
+  });
+    console.log('서버 응답:', response.data.output_msg);
+    alert('서버 응답:' + response.data.output_msg);
+    if(response.data.output_msg == '저장되었습니다'){
+      selectRow();
+  }
+  } catch (error) {
+    console.error('서버에 데이터 전송 중 오류:', error);
+    alert('서버 에러응답:' + response.data.output_msg);
+  }
+  }
 
 const sendDataToServer = async () => {
   // gridApi가 초기화되었을 때만 호출
@@ -178,12 +203,14 @@ const sendDataToServer = async () => {
 
     
     return (
-      <div className="main-content">
+      <div>
         <h2>{month}듀티표작성</h2>
       <div style={{ width: '100%', height: '600px' }} className="ag-theme-alpine">
       <div className="absolute top-0 right-0">
-            <button id='defBut' onClick={sendDataToServer} style={{ position: 'relative',
-          left: `1395px`, }}>
+      <button id='defBut' onClick={deletAllData} style={{ position: 'relative',left: `1290px`, }}>
+                초기화
+            </button>
+            <button id='defBut' onClick={sendDataToServer} style={{ position: 'relative',left: `1290px`, }}>
                 저장
             </button>
             </div>

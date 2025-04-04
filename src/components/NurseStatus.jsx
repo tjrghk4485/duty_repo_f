@@ -67,18 +67,15 @@ const NurseStatus = () => {
     const addRow = () => {
         getRowData();
         const newItem = {  delete: false,
-            parent_id: 'user123',
-            status: 'I',
-            nurse_id: 'NUR001',
-            nurse_nm: '홍길동',
-            USE_YN: true };
+            parent_id: localStorage.getItem('userId'),
+            use_yn: false };
         setRowData([...rowData, newItem]);
     };
 
     const selectRow = () => {
         axios.get('http://localhost:3001/nurse/sel',{
             params: {
-                parent_id: '100'
+                parent_id: localStorage.getItem('userId')
             }
         })
         .then(response => {
@@ -106,6 +103,11 @@ const NurseStatus = () => {
    
 
   const sendDataToServer = async () => {
+
+    if(!confirm('저장하시겠습니까?')) {
+        return;
+    }
+
     // gridApi가 초기화되었을 때만 호출
     if (gridApi.current) {
         // const selectedData = gridApi.current.getSelectedRows();  // 선택된 데이터 가져오기
@@ -178,6 +180,9 @@ const NurseStatus = () => {
         const { oldValue, newValue, data, colDef } = event;
         console.log(`컬럼: ${colDef.field}, 변경 전 값: ${oldValue}, 변경 후 값: ${newValue}, data.id: ${data.delete}`);
         
+      
+
+
         // 전체 rowData를 한 번에 갱신 (기존 rowData와 변경된 값만 반영)
         setRowData((prevRowData) => {
             return prevRowData.map((row) => {

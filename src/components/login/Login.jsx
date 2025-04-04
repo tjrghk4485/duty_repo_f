@@ -40,8 +40,8 @@ const Login = ({valueChk}) => {
             }});
             if (responseData) {
               console.log("responseData.data=" + JSON.stringify(responseData));
-              localStorage.setItem("kakaoId", id);
-              localStorage.setItem("nickname", password);
+              localStorage.setItem("userId", id);
+              //localStorage.setItem("nickname", password);
               valueChk();
               navigate("/nurseStatus"); // ✅ 로그인 성공 후 이동
             } else {

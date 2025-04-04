@@ -19,7 +19,7 @@ function App() {
 
   // 📌 처음 렌더링될 때 localStorage에서 로그인 상태 확인
   useEffect(() => {
-    const token = localStorage.getItem("kakaoId"); // 저장된 토큰 가져오기
+    const token = localStorage.getItem("userId"); // 저장된 토큰 가져오기
     console.log("localStorage1:" + token);
     console.log("isLoggedIn:" + isLoggedIn);
     if (token) {
@@ -47,7 +47,6 @@ function App() {
         <div className="wrapper">
           <Menu valueChk={() => setIsLoggedIn(false)}/>
           <div className="main-content">
-            {/* <Header /> */}
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/auth/kakao" element={<KakaoAuth />} />

@@ -26,10 +26,10 @@ const KakaoAuth = ({valueChk}) => {
 
             const data = await response.json();
             console.log("백엔드 응답:", data); // ✅ 회원 코드 및 JWT 확인
-            console.log("data.kakaoId:" + data.token.kakaoId);
+            console.log("data.userId:" + data.token.userId);
             console.log("data.token:" + data.token);
             if (data.token) {
-                localStorage.setItem("kakaoId", data.token.kakaoId); // 🔥 JWT 저장
+                localStorage.setItem("userId", data.token.userId); // 🔥 JWT 저장
                 localStorage.setItem("nickname", data.token.nickname);
                 localStorage.setItem("profile_image", data.token.profile_image);
                 valueChk();

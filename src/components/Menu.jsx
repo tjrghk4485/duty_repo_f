@@ -23,16 +23,16 @@ const Menu = ({valueChk}) => {
    // 드롭다운이 열렸는지 여부를 관리
    const [isOpen, setIsOpen] = useState(false);
 
-   // 드롭다운 열고 닫기
-   const toggleDropdown = () => {
-     setIsOpen(!isOpen);
-   };
+  //  // 드롭다운 열고 닫기
+  //  const toggleDropdown = () => {
+  //    setIsOpen(!isOpen);
+  //  };
 
    const handleLogout = ()=>{
-    localStorage.removeItem("kakaoId");
+    localStorage.removeItem("userId");
     localStorage.removeItem("nickname");
     localStorage.removeItem("profile_image");
-    console.log("localStorage:" + localStorage.getItem("kakaoId"));
+    console.log("localStorage:" + localStorage.getItem("userId"));
     valueChk();
     navigate("/login");
     
@@ -70,24 +70,19 @@ const Menu = ({valueChk}) => {
             marginTop: '5px', // 추가적인 공간을 위해 옵션으로 설정
             
           }}>
-      <a
-        href="#"
+      <div
         className="d-flex align-items-center link-dark text-decoration-none "
-        onClick={(e) => {
-          e.preventDefault(); // 링크 클릭 시 페이지 리로드 방지
-          toggleDropdown(); // 드롭다운 토글
-        }}
         aria-expanded={isOpen ? 'true' : 'false'}
       >
         <img
-          src= {profileImage}
+          src= {localStorage.getItem("profile_image")}
           alt=""
           width="32"
           height="32"
           className="rounded-circle me-2"
         />
-        <a>{nickname}님,반갑습니다.</a>       
-      </a>
+        <a>{localStorage.getItem("nickname")}님,반갑습니다.</a>       
+      </div>
 
       {/* 드롭다운 메뉴 */}
       {isOpen && (
