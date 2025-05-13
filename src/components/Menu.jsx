@@ -52,7 +52,7 @@ const Menu = ({valueChk}) => {
                  
             <Link to="/" className="sidebar-link"><img src= {houseIcon} 
             alt="임시로그아웃" width="20"height="20" className="me-2" />
-            임시로그아웃</Link>
+            최적화옵션</Link>
           
             <Link to="/nurseStatus" className="sidebar-link"><img src= {nurseIcon}
             alt="간호사정보" width="20"height="20" className="me-2" />

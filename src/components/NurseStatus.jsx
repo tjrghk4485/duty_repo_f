@@ -66,9 +66,11 @@ const NurseStatus = () => {
     //===============================잡기능==============================================//
     const addRow = () => {
         getRowData();
-        const newItem = {  delete: false,
-            parent_id: localStorage.getItem('userId'),
-            use_yn: false };
+        const newItem = {   delete: false,
+                            status: 'I',
+                            parent_id: localStorage.getItem('userId'),
+                            use_yn: false 
+                        };
         setRowData([...rowData, newItem]);
     };
 

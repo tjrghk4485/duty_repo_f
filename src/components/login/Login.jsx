@@ -38,17 +38,17 @@ const Login = ({valueChk}) => {
                 "id": id,
                 "password" : password
             }});
-            if (responseData) {
-              console.log("responseData.data=" + JSON.stringify(responseData));
+            if (responseData.data[0]) {
+              console.log("responseData.data=" + JSON.stringify(responseData.data[0]));
               localStorage.setItem("userId", id);
               //localStorage.setItem("nickname", password);
               valueChk();
               navigate("/nurseStatus"); // ✅ 로그인 성공 후 이동
             } else {
-              alert('회원가입에 실패하였습니다. 다시 시도해주세요.');
+              alert('로그인 실패하였습니다. 계정확인해주세요.');
             }
           } catch (error) {
-            alert('회원가입에 실패하였습니다. 다시 시도해주세요.');
+            alert('로그인인 실패하였습니다. 계정확인해주세요.');
             console.error(error);
           }
 
