@@ -224,7 +224,7 @@ const NurseStatus = () => {
                     modules={[AllCommunityModule]}
                     onCellEditCommit={onCellEditCommit}  // 셀 편집 완료 후 데이터 추적
                     onCellValueChanged={onCellValueChanged}
-
+                    
                     
                 />
             </div>

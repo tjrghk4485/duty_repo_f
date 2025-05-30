@@ -9,8 +9,11 @@ import OptimizeDialog from './OptimizeDialog.jsx';
 
 
 // AG-Grid에서 필요한 모듈을 import
-import { AllCommunityModule } from 'ag-grid-community';
+import { ModuleRegistry } from 'ag-grid-community'; 
+import { CellSelectionModule } from 'ag-grid-enterprise'; 
+import { AllCommunityModule,CsvExportModule } from 'ag-grid-community';
 import { ExcelExportModule } from 'ag-grid-enterprise';
+
 const NurseSchedule = () => {
   const gridApi = useRef([]);
   const columnApi = useRef([]);
@@ -126,6 +129,7 @@ const generateDateHeaders = () => {
       width: 45,
       headerClass, // 요일 기준 동적 설정
       isDynamic: true,
+      suppressMovable: true,       // 헤더 위치 이동 막기
       cellStyle: (params) => {
         if (params.value === 'D') {
           return { color: 'rgb(91, 177, 73)' ,borderRight: "1px solid #ccc"};
@@ -506,6 +510,10 @@ const autoSchedule = async () => {
     setUnderRowData(rowDataForGrid);
 
     };
+
+    const onBtnExport = useCallback(() => {
+      gridApi.current[1].exportDataAsCsv();
+    }, []);
     
 
 
@@ -531,6 +539,9 @@ const autoSchedule = async () => {
             <button id='defBut'onClick={() => setOpen(true)} style={{ position: 'relative',left: `1180px`, }}>
                 최적화
             </button>
+            <button id='defBut'onClick={onBtnExport} style={{ position: 'relative',left: `1180px`, }}>
+              표 다운
+              </button>
             <OptimizeDialog open={open} onClose={() => setOpen(false)} onRun={handleRun} yyyymm ={yyyymm}/>
             </div>
             <div style={{ display: 'flex' }}>
@@ -543,6 +554,12 @@ const autoSchedule = async () => {
           modules={[AllCommunityModule]}
           onCellKeyDown={onCellKeyDown} // 키 이벤트 처리
           onCellValueChanged={(params) => onCellValueChanged(params, 0)}
+          suppressClipboardPaste={false} // 붙여넣기 허용
+          rowSelection="multiple"       // 다중 선택 모드
+          defaultColDef={{
+            sortable: false,   // ✅ 헤더 정렬 비활성화
+            resizable: true,
+          }}
       />
       </div>
             <div className="ag-theme-alpine" style={{  marginLeft: '10px',height: 400, width: '1477px'}}>
@@ -554,6 +571,13 @@ const autoSchedule = async () => {
           modules={[AllCommunityModule]}
           onCellKeyDown={onCellKeyDown} // 키 이벤트 처리
           onCellValueChanged={(params) => onCellValueChanged(params, 1)}
+          suppressClipboardPaste={false} // 붙여넣기 허용
+          defaultColDef={{
+            sortable: false,   // ✅ 헤더 정렬 비활성화
+            resizable: true,
+          }}
+          cellSelection={false}
+          rowSelection="multiple"       // 다중 선택 모드
       />
       </div>
       </div>
@@ -566,6 +590,12 @@ const autoSchedule = async () => {
           modules={[AllCommunityModule]}
           onCellKeyDown={onCellKeyDown} // 키 이벤트 처리
           onCellValueChanged={(params) => onCellValueChanged(params, 2)}
+          suppressClipboardPaste={false} // 붙여넣기 허용
+          rowSelection="multiple"       // 다중 선택 모드
+          defaultColDef={{
+            sortable: false,   // ✅ 헤더 정렬 비활성화
+            resizable: true,
+          }}
       />
       </div>
   </div>
