@@ -13,6 +13,7 @@ import Login from "./components/login/Login";
 import Register from "./components/login/Register";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+
 function App() {
   //const navigate = useNavigate(); 
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 저장

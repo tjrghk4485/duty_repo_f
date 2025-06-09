@@ -4,6 +4,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import './css/Menu.css'
 import axios from 'axios';
+import * as XLSX from 'xlsx'; 
 
 // AG-Grid에서 필요한 모듈을 import
 import { AllCommunityModule } from 'ag-grid-community';
@@ -12,7 +13,17 @@ const NurseStatus = () => {
     const gridApi = useRef(null);
     const columnApi = useRef(null);
     const [rowData, setRowData] = useState([]); // useState로 수정 
-    
+    const [excelData, setExcelData] = useState([]);
+    const keyMap = {
+        "삭제": "delete",
+        "상태": "status",
+        "사용자": "parent_id",
+        "간호사번호": "nurse_id",
+        "이름": "nurse_nm",
+        "근무시작일": "start_date",
+        "선호근무": "keep_type",
+        "사용여부": "use_yn",
+      };
     
 
     const onGridReady = (params) => {
@@ -61,6 +72,11 @@ const NurseStatus = () => {
         { headerName: "간호사번호", field: "nurse_id", editable: true },
         { headerName: "이름", field: "nurse_nm", editable: true },
         { headerName: "근무시작일", field: "start_date", editable: true },
+        { headerName: "선호근무", field: "keep_type",  editable: true,
+            cellEditor: 'agSelectCellEditor',
+            cellEditorParams: {
+              values: ['D', 'E', 'N','X'],
+            }},
         { headerName: "사용여부", field: "use_yn", editable: true }
     ];
     //===============================잡기능==============================================//
@@ -69,6 +85,7 @@ const NurseStatus = () => {
         const newItem = {   delete: false,
                             status: 'I',
                             parent_id: localStorage.getItem('userId'),
+                            keep_type: 'X',
                             use_yn: false 
                         };
         setRowData([...rowData, newItem]);
@@ -132,8 +149,14 @@ const NurseStatus = () => {
             }
             
         } catch (error) {
-            console.error('서버에 데이터 전송 중 오류:', error);
-            alert('서버 에러응답:' + response.data.output_msg);
+            console.log('서버에 데이터 전송 중 오류:', error.response);
+            if (error.response && error.response.data && error.response.data.message) {
+                // 서버가 예외 메시지를 JSON으로 내려준 경우
+                alert('서버 에러응답: ' + error.response.data.message);
+            } else {
+                // 서버가 응답을 아예 안 했거나 알 수 없는 오류
+                alert('서버 요청 중 알 수 없는 오류가 발생했습니다.');
+            }
         }
     } else {
         console.log("gridApi가 초기화되지 않았습니다.");
@@ -203,16 +226,51 @@ const NurseStatus = () => {
         });
     };
 
+    const handleFileUpload = (event) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+    
+        const reader = new FileReader();
+    
+        reader.onload = (e) => {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+    
+          const sheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[sheetName];
+          const jsonData = XLSX.utils.sheet_to_json(worksheet);
+          
+          setExcelData(jsonData);
+          console.log('엑셀 파싱 결과:', jsonData);
+          console.log('기존로우데이터:', rowData);
+          const convertedData = jsonData.map(convertKeys);
+    setRowData([...rowData, ...convertedData]); // AG Grid에 적용
+        };
+    
+        reader.readAsArrayBuffer(file);
+        
+      };
+
+      const convertKeys = (row) => {
+        const newRow = {};
+        for (const [k, v] of Object.entries(row)) {
+          newRow[keyMap[k] || k] = v;
+        }
+        return newRow;
+      };
+
 
    //=================================그리드이벤트=========================================//
     return (
         <div className="main-content">
             <h2>간호사정보</h2>
             <div className="absolute top-0 right-0">
-            <button id='defBut' onClick={sendDataToServer} style={{ position: 'relative',left: `990px`, }}>
+            <h5>엑셀 업로드</h5>
+            <input type="file" accept=".xlsx, .xls" onChange={handleFileUpload} />
+            <button id='defBut' onClick={sendDataToServer} style={{ position: 'relative',left: `690px`, }}>
                 저장
             </button>
-            <button id='defBut' onClick={addRow}style={{ position: 'relative',left: `990px`, }}>행 추가</button>
+            <button id='defBut' onClick={addRow}style={{ position: 'relative',left: `690px`, }}>행 추가</button>
         </div>
             <div className="ag-theme-alpine" style={{ height: 200, width: '1200px' }}>
                 <AgGridReact
@@ -228,6 +286,7 @@ const NurseStatus = () => {
                     
                 />
             </div>
+            
         </div>
     );
 }
