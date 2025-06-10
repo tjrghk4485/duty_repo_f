@@ -10,9 +10,8 @@ import OptimizeDialog from './OptimizeDialog.jsx';
 
 // AG-Grid에서 필요한 모듈을 import
 import { ModuleRegistry } from 'ag-grid-community'; 
-import { CellSelectionModule } from 'ag-grid-enterprise'; 
 import { AllCommunityModule,CsvExportModule } from 'ag-grid-community';
-import { ExcelExportModule } from 'ag-grid-enterprise';
+
 
 const NurseSchedule = () => {
   const gridApi = useRef([]);
@@ -112,78 +111,78 @@ const NurseSchedule = () => {
 //     }
 //     return dateHeaders;
 // };
-const generateDateHeaders = () => {
-  const dateHeaders = [];
+  const generateDateHeaders = () => {
+    const dateHeaders = [];
 
-  for (let day = 1; day <= lastDay; day++) {
-    const date = new Date(year, month - 1, day); // JS는 month가 0부터 시작
-    const dayOfWeek = date.getDay(); // 0: 일요일, 6: 토요일
+    for (let day = 1; day <= lastDay; day++) {
+      const date = new Date(year, month - 1, day); // JS는 month가 0부터 시작
+      const dayOfWeek = date.getDay(); // 0: 일요일, 6: 토요일
 
-    const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
-    const headerClass = isWeekend ? 'weekend-header' : 'df-header';
+      const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
+      const headerClass = isWeekend ? 'weekend-header' : 'df-header';
 
-    dateHeaders.push({
-      headerName: day.toString(),
-      field: `${day}`,
-      editable: false,
-      width: 45,
-      headerClass, // 요일 기준 동적 설정
-      isDynamic: true,
-      suppressMovable: true,       // 헤더 위치 이동 막기
-      cellStyle: (params) => {
-        if (params.value === 'D') {
-          return { color: 'rgb(91, 177, 73)' ,borderRight: "1px solid #ccc"};
-        } else if (params.value === 'E') {
-          return { color: 'rgb(132, 161, 204)',borderRight: "1px solid #ccc" };
-        } else if (params.value === 'N') {
-          return { color: 'rgb(149, 64, 199)',borderRight: "1px solid #ccc" };
-        } else if (params.value === 'O') {
-          return { color: 'rgb(138, 136, 134)',borderRight: "1px solid #ccc" };
-        } else {borderRight: "1px solid #ccc"};
-        return null;
-      }
-    });
-  }
+      dateHeaders.push({
+        headerName: day.toString(),
+        field: `${day}`,
+        editable: false,
+        width: 45,
+        headerClass, // 요일 기준 동적 설정
+        isDynamic: true,
+        suppressMovable: true,       // 헤더 위치 이동 막기
+        cellStyle: (params) => {
+          if (params.value === 'D') {
+            return { color: 'rgb(91, 177, 73)' ,borderRight: "1px solid #ccc"};
+          } else if (params.value === 'E') {
+            return { color: 'rgb(132, 161, 204)',borderRight: "1px solid #ccc" };
+          } else if (params.value === 'N') {
+            return { color: 'rgb(149, 64, 199)',borderRight: "1px solid #ccc" };
+          } else if (params.value === 'O') {
+            return { color: 'rgb(138, 136, 134)',borderRight: "1px solid #ccc" };
+          } else {borderRight: "1px solid #ccc"};
+          return null;
+        }
+      });
+    }
 
-  return dateHeaders;
-};
+    return dateHeaders;
+  };
 
 
-const sideDateHeaders = () => {
-  const dateHeaders = [];
-  const beforeDay = new Date(year, month-1, 0).getDate();
-  console.log('beforeDay=' + beforeDay);
-  for (let day = (beforeDay-3); day <= beforeDay; day++) {
-    const date = new Date(year, month - 1, day); // JS는 month가 0부터 시작
-    const dayOfWeek = date.getDay(); // 0: 일요일, 6: 토요일
+  const sideDateHeaders = () => {
+    const dateHeaders = [];
+    const beforeDay = new Date(year, month-1, 0).getDate();
+    console.log('beforeDay=' + beforeDay);
+    for (let day = (beforeDay-3); day <= beforeDay; day++) {
+      const date = new Date(year, month - 1, day); // JS는 month가 0부터 시작
+      const dayOfWeek = date.getDay(); // 0: 일요일, 6: 토요일
 
-    const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
-    const headerClass = isWeekend ? 'weekend-header' : 'df-header';
+      const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
+      const headerClass = isWeekend ? 'weekend-header' : 'df-header';
 
-    dateHeaders.push({
-      headerName: day.toString(),
-      field: `${day}`,
-      editable: false,
-      width: 45,
-      headerClass, // 요일 기준 동적 설정
-      isDynamic: true,
-      cellStyle: (params) => {
-        if (params.value === 'D') {
-          return { color: 'rgb(91, 177, 73)' ,borderRight: "1px solid #ccc"};
-        } else if (params.value === 'E') {
-          return { color: 'rgb(132, 161, 204)',borderRight: "1px solid #ccc" };
-        } else if (params.value === 'N') {
-          return { color: 'rgb(149, 64, 199)',borderRight: "1px solid #ccc" };
-        } else if (params.value === 'O') {
-          return { color: 'rgb(138, 136, 134)',borderRight: "1px solid #ccc" };
-        } else {borderRight: "1px solid #ccc"};
-        return null;
-      }
-    });
-  }
+      dateHeaders.push({
+        headerName: day.toString(),
+        field: `${day}`,
+        editable: false,
+        width: 45,
+        headerClass, // 요일 기준 동적 설정
+        isDynamic: true,
+        cellStyle: (params) => {
+          if (params.value === 'D') {
+            return { color: 'rgb(91, 177, 73)' ,borderRight: "1px solid #ccc"};
+          } else if (params.value === 'E') {
+            return { color: 'rgb(132, 161, 204)',borderRight: "1px solid #ccc" };
+          } else if (params.value === 'N') {
+            return { color: 'rgb(149, 64, 199)',borderRight: "1px solid #ccc" };
+          } else if (params.value === 'O') {
+            return { color: 'rgb(138, 136, 134)',borderRight: "1px solid #ccc" };
+          } else {borderRight: "1px solid #ccc"};
+          return null;
+        }
+      });
+    }
 
-  return dateHeaders;
-};
+    return dateHeaders;
+  };
 
 // useEffect(() => {
 //   // 스프링 서버에서 데이터를 가져와 첫 번째 컬럼 설정
@@ -233,121 +232,148 @@ const sideDateHeaders = () => {
         console.log("response.data" + response.data);
     })
   .catch(error => alert('Error:', error));
-};
+  };
 
-const sideSelectRow = () => {
-  axios.get('http://localhost:3001/schedule/side/sel',{
-      params: {
-        parent_id: localStorage.getItem('userId'),
-        work_date: yyyymm-1
-      }
-  })
-  .then(response => {
-      setSideRowData(response.data);
-      console.log("response.data" + response.data);
-  })
-.catch(error => alert('Error:', error));
-  console.log("gridApi.current[1]=" + gridApi.current[1]);
-const allData = gridApi.current[1].getRenderedNodes().map(node => node.data);
+  const sideSelectRow = () => {
+    axios.get('http://localhost:3001/schedule/side/sel',{
+        params: {
+          parent_id: localStorage.getItem('userId'),
+          work_date: yyyymm-1
+        }
+    })
+    .then(response => {
+        setSideRowData(response.data);
+        console.log("response.data" + response.data);
+    })
+  .catch(error => alert('Error:', error));
+    console.log("gridApi.current[1]=" + gridApi.current[1]);
+  const allData = gridApi.current[1].getRenderedNodes().map(node => node.data);
 
-};
+  };
 
-const deletAllData = async () => {
-  
-  if(!confirm('일정을 초기화 하시겠습니까?')) {
-    return;
+  const createDuty = async () => {
+    
+    if(!confirm(month + '월 일정표를 생성하시겠습니까?')) {
+      return;
+    }
+
+    try {
+      const response =  await axios.post('http://localhost:3001/schedule/create', {
+        
+          parent_id: localStorage.getItem('userId'),
+          work_date: yyyymm
+        
+    });
+      console.log('서버 응답:', response.data.output_msg);
+      alert('서버 응답:' + response.data.output_msg);
+      if(response.data.output_msg == '저장되었습니다'){
+        selectRow();
+        sideSelectRow();
+    }
+    } catch (error) {
+      console.error('서버에 데이터 전송 중 오류:', error);
+      alert('서버 에러응답:' + response.data.output_msg);
+    }
   }
 
-  try {
-    const response =  await axios.post('http://localhost:3001/schedule/delete', {
-      
-        parent_id: localStorage.getItem('userId'),
-        work_date: yyyymm
-      
-  });
-    console.log('서버 응답:', response.data.output_msg);
-    alert('서버 응답:' + response.data.output_msg);
-    if(response.data.output_msg == '저장되었습니다'){
-      selectRow();
-      sideSelectRow();
-  }
-  } catch (error) {
-    console.error('서버에 데이터 전송 중 오류:', error);
-    alert('서버 에러응답:' + response.data.output_msg);
-  }
-  }
 
-const sendDataToServer = async () => {
-  // gridApi가 초기화되었을 때만 호출
-  if (gridApi.current[1]) {
-      // const selectedData = gridApi.current[1].getSelectedRows();  // 선택된 데이터 가져오기
-      // console.log("selectedData =", selectedData);
-      const allData = [];
-      gridApi.current[1].forEachNode((node) => {
-          allData.push(node.data); // 각 행의 데이터를 배열에 추가
-      });
-      
-      console.log("전체 데이터:", allData);
+  const deletAllData = async () => {
+    
+    if(!confirm('일정을 초기화 하시겠습니까?')) {
+      return;
+    }
 
-      const formattedData = allData.flatMap(item => {
-        const parent_id = item.parent_id; // parent_id를 work_date로 사용
-        const nurse_id = item.nurse_id; // name을 nurse_id로 사용
-      
-        return Object.keys(item)
-          .filter(key => !isNaN(key)) // 숫자 키(1~31)만 필터링
-          .map(key => ({
-            work_date: yyyymm,
-            parent_id: parent_id,
-            nurse_id: nurse_id,
-            work_type: item[key], // 해당 날짜의 work_type
-            work_day: parseInt(key, 10), // 1~31을 work_day로 사용
-          }));
-      });
-
-      console.log("수정 후 전체 데이터:",formattedData);
-
-      try {
-          const response = await axios.post('http://localhost:3001/schedule/mod', formattedData);
-          console.log('서버 응답:', response.data.output_msg);
-          alert('서버 응답:' + response.data.output_msg);
-          selectRow();
-          sideSelectRow();
-      } catch (error) {
-          console.error('서버에 데이터 전송 중 오류:', error);
-          alert('서버 에러응답:' + response.data.output_msg);
-      }
-  } else {
-      console.log("gridApi가 초기화되지 않았습니다.");
-  }
-};
-
-
-
-const autoSchedule = async () => {
-  
-  if(!confirm('듀티표 자동생성 할거임?')) {
-    return;
+    try {
+      const response =  await axios.post('http://localhost:3001/schedule/delete', {
+        
+          parent_id: localStorage.getItem('userId'),
+          work_date: yyyymm
+        
+    });
+      console.log('서버 응답:', response.data.output_msg);
+      alert('서버 응답:' + response.data.output_msg);
+      if(response.data.output_msg == '저장되었습니다'){
+        selectRow();
+        sideSelectRow();
+    }
+    } catch (error) {
+      console.error('서버에 데이터 전송 중 오류:', error);
+      alert('서버 에러응답:' + response.data.output_msg);
+    }
   }
 
-  try {
-    const response =  await axios.post('http://localhost:3001/schedule/auto', {
-      
-        parent_id: localStorage.getItem('userId'),
-        work_date: yyyymm,
-        needed_per_shift: 5
 
-      
-  });
-    console.log('서버 응답:', response.data.output_msg);
-    alert('서버 응답:' + response.data.output_msg);
-    if(response.data.output_msg == '저장되었습니다'){
-      selectRow();
-      sideSelectRow();
-  }
-  } catch (error) {
-    console.error('서버에 데이터 전송 중 오류:', error);
-    alert('서버 에러응답:' + response.data.output_msg);
-  }
+  const sendDataToServer = async () => {
+    // gridApi가 초기화되었을 때만 호출
+    if (gridApi.current[1]) {
+        // const selectedData = gridApi.current[1].getSelectedRows();  // 선택된 데이터 가져오기
+        // console.log("selectedData =", selectedData);
+        const allData = [];
+        gridApi.current[1].forEachNode((node) => {
+            allData.push(node.data); // 각 행의 데이터를 배열에 추가
+        });
+        
+        console.log("전체 데이터:", allData);
+
+        const formattedData = allData.flatMap(item => {
+          const parent_id = item.parent_id; // parent_id를 work_date로 사용
+          const nurse_id = item.nurse_id; // name을 nurse_id로 사용
+        
+          return Object.keys(item)
+            .filter(key => !isNaN(key)) // 숫자 키(1~31)만 필터링
+            .map(key => ({
+              work_date: yyyymm,
+              parent_id: parent_id,
+              nurse_id: nurse_id,
+              work_type: item[key], // 해당 날짜의 work_type
+              work_day: parseInt(key, 10), // 1~31을 work_day로 사용
+            }));
+        });
+
+        console.log("수정 후 전체 데이터:",formattedData);
+
+        try {
+            const response = await axios.post('http://localhost:3001/schedule/mod', formattedData);
+            console.log('서버 응답:', response.data.output_msg);
+            alert('서버 응답:' + response.data.output_msg);
+            selectRow();
+            sideSelectRow();
+        } catch (error) {
+            console.error('서버에 데이터 전송 중 오류:', error);
+            alert('서버 에러응답:' + response.data.output_msg);
+        }
+    } else {
+        console.log("gridApi가 초기화되지 않았습니다.");
+    }
+  };
+
+
+
+  const autoSchedule = async () => {
+    
+    if(!confirm('듀티표 자동생성 할거임?')) {
+      return;
+    }
+
+    try {
+      const response =  await axios.post('http://localhost:3001/schedule/auto', {
+        
+          parent_id: localStorage.getItem('userId'),
+          work_date: yyyymm,
+          needed_per_shift: 5
+
+        
+    });
+      console.log('서버 응답:', response.data.output_msg);
+      alert('서버 응답:' + response.data.output_msg);
+      if(response.data.output_msg == '저장되었습니다'){
+        selectRow();
+        sideSelectRow();
+    }
+    } catch (error) {
+      console.error('서버에 데이터 전송 중 오류:', error);
+      alert('서버 에러응답:' + response.data.output_msg);
+    }
   }
 
 
@@ -521,29 +547,33 @@ const autoSchedule = async () => {
 
     return (
       
-      <div><div class="header-container">
-      <div class="button-title-group">
-        <button class="nav-button" onClick={backMonth}>{month-1}월</button>
-        <h2>{month}월 듀티표</h2>
-        <button class="nav-button" onClick={addMonth}>{month+1}월</button>
-      </div>
-    </div>  
-      <div >
-      <a>전달 근무</a>
-      <button id='defBut' onClick={deletAllData} style={{ position: 'relative',left: `1180px`, }}>
-                초기화
-            </button>
-            <button id='defBut' onClick={sendDataToServer} style={{ position: 'relative',left: `1180px`, }}>
-                저장
-            </button>
-            <button id='defBut'onClick={() => setOpen(true)} style={{ position: 'relative',left: `1180px`, }}>
-                최적화
-            </button>
-            <button id='defBut'onClick={onBtnExport} style={{ position: 'relative',left: `1180px`, }}>
-              표 다운
-              </button>
-            <OptimizeDialog open={open} onClose={() => setOpen(false)} onRun={handleRun} yyyymm ={yyyymm}/>
-            </div>
+      <div>
+        <div class="header-container">
+          <div class="button-title-group">
+            <button class="nav-button" onClick={backMonth}>{month-1}월</button>
+            <h2>{month}월 듀티표</h2>
+            <button class="nav-button" onClick={addMonth}>{month+1}월</button>
+          </div>
+        </div>  
+        <div>
+          <a>전달 근무</a>
+          <button id='defBut' onClick={createDuty} style={{ position: 'relative',left: `1180px`, }}>
+                생성
+          </button>
+          <button id='defBut' onClick={deletAllData} style={{ position: 'relative',left: `1180px`, }}>
+            초기화
+          </button>
+          <button id='defBut' onClick={sendDataToServer} style={{ position: 'relative',left: `1180px`, }}>
+            저장
+          </button>
+          <button id='defBut'onClick={() => setOpen(true)} style={{ position: 'relative',left: `1180px`, }}>
+            최적화
+          </button>
+          <button id='defBut'onClick={onBtnExport} style={{ position: 'relative',left: `1180px`, }}>
+          표 다운
+          </button>
+          <OptimizeDialog open={open} onClose={() => setOpen(false)} onRun={handleRun} yyyymm ={yyyymm}/>
+        </div>
             <div style={{ display: 'flex' }}>
             <div className="ag-theme-alpine" style={{ height: 400, width: '200px'}}>
       <AgGridReact
