@@ -66,18 +66,18 @@ const NurseStatus = () => {
     
 
     const columns = [
-        { headerName: "삭제", field: "delete",editable: true},
-        { headerName: "상태", field: "status", editable: false },
-        { headerName: "사용자", field: "parent_id", editable: true },
-        { headerName: "간호사번호", field: "nurse_id", editable: true },
-        { headerName: "이름", field: "nurse_nm", editable: true },
-        { headerName: "근무시작일", field: "start_date", editable: true },
-        { headerName: "선호근무", field: "keep_type",  editable: true,
+        { headerName: "삭제", width:50, field: "delete",editable: true, cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"},
+        { headerName: "상태", field: "status", editable: false, hide: true, cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"},
+        { headerName: "사용자", field: "parent_id", editable: true , hide: true, cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"},
+        { headerName: "간호사번호", field: "nurse_id", editable: true , hide: true, cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"},
+        { headerName: "이름", width:80, field: "nurse_nm", editable: true , cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"},
+        { headerName: "근무시작일", width:80, field: "start_date", editable: true , cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"},
+        { headerName: "선호근무", width:80, field: "keep_type",  editable: true, cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header",
             cellEditor: 'agSelectCellEditor',
             cellEditorParams: {
               values: ['D', 'E', 'N','X'],
             }},
-        { headerName: "사용여부", field: "use_yn", editable: true }
+        { headerName: "사용여부", width:80, field: "use_yn", editable: true , cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"}
     ];
     //===============================잡기능==============================================//
     const addRow = () => {
@@ -272,7 +272,7 @@ const NurseStatus = () => {
             </button>
             <button id='defBut' onClick={addRow}style={{ position: 'relative',left: `690px`, }}>행 추가</button>
         </div>
-            <div className="ag-theme-alpine" style={{ height: 200, width: '1200px' }}>
+            <div className="ag-theme-alpine" style={{ height: 200, width: '1000px' }}>
                 <AgGridReact
                     onGridReady={onGridReady}
                     columnDefs={columns}

@@ -229,7 +229,7 @@ const NurseSchedule = () => {
     })
     .then(response => {
         setRowData(response.data);
-        console.log("response.data" + response.data);
+        //console.log("response.data" + response.data);
     })
   .catch(error => alert('Error:', error));
   };
@@ -243,11 +243,11 @@ const NurseSchedule = () => {
     })
     .then(response => {
         setSideRowData(response.data);
-        console.log("response.data" + response.data);
+        //console.log("response.data" + response.data);
     })
   .catch(error => alert('Error:', error));
     console.log("gridApi.current[1]=" + gridApi.current[1]);
-  const allData = gridApi.current[1].getRenderedNodes().map(node => node.data);
+  //const allData = gridApi.current[1].getRenderedNodes().map(node => node.data);
 
   };
 
