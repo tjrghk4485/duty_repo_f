@@ -12,6 +12,7 @@ import KakaoAuth from "./components/login/KakaoAuth";
 import Login from "./components/login/Login";
 import Register from "./components/login/Register";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Navigate } from 'react-router-dom';
 
 
 function App() {
@@ -49,10 +50,10 @@ function App() {
           <Menu valueChk={() => setIsLoggedIn(false)}/>
           <div className="main-content">
             <Routes>
-              <Route path="/" element={<Home />} />
               <Route path="/auth/kakao" element={<KakaoAuth />} />
               <Route path="/nurseStatus" element={<NurseStatus />} />
               <Route path="/nurseSchedule" element={<NurseSchedule />} />
+              <Route path="/" element={<Navigate to="/nurseSchedule" replace />} />
               <Route path="*" element={<NoMatch />} />
             </Routes>
           </div>

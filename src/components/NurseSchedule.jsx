@@ -203,17 +203,6 @@ const NurseSchedule = () => {
     gridApi.current[gridIndex] = params.api;
     columnApi.current[gridIndex] = params.columnApi;
     gridRef.current[gridIndex].api.sizeColumnsToFit();
-    // const now = new Date();
-    // const year = now.getFullYear();
-    // const month = now.toLocaleDateString();
-    // const yyyymm = `${year}${month}`;
-    // console.log('now='+now);
-    // console.log('year='+year);
-    // console.log('month='+month);
-    // console.log('yyyymm='+yyyymm);
-    // const dateHeaders = generateDateHeaders();
-    // setColumnDefs(prevDefs => [...prevDefs, ...dateHeaders]);
-
     selectRow();
     sideSelectRow();
     
