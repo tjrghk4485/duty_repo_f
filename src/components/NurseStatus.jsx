@@ -61,15 +61,18 @@ const NurseStatus = () => {
     // 셀 편집 완료 후 호출되는 이벤트
     const onCellEditCommit = (event) => {
         console.log('수정된 데이터:', event.data);
+         if (gridApi.current) {
+            gridApi.current.sizeColumnsToFit();
+        }
     };
 
     
 
     const columns = [
         { headerName: "삭제", width:50, field: "delete",editable: true, cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"},
-        { headerName: "상태", field: "status", editable: false, hide: true, cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"},
-        { headerName: "사용자", field: "parent_id", editable: true , hide: true, cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"},
-        { headerName: "간호사번호", field: "nurse_id", editable: true , hide: true, cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"},
+        { headerName: "상태", width:80, field: "status", editable: false, hide: true, cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"},
+        { headerName: "사용자", width:80, field: "parent_id", editable: true , hide: true, cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"},
+        { headerName: "간호사번호", width:80, field: "nurse_id", editable: true , hide: true, cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"},
         { headerName: "이름", width:80, field: "nurse_nm", editable: true , cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"},
         { headerName: "근무시작일", width:80, field: "start_date", editable: true , cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"},
         { headerName: "선호근무", width:80, field: "keep_type",  editable: true, cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header",
@@ -224,6 +227,17 @@ const NurseStatus = () => {
                 return row; // 나머지 행은 그대로
             });
         });
+
+         setTimeout(() => {
+            gridApi.current.sizeColumnsToFit();
+          }, 10);
+
+    };
+
+    const onFirstDataRendered = (params) => {
+    setTimeout(() => {
+            gridApi.current.sizeColumnsToFit();
+          }, 10);
     };
 
     const handleFileUpload = (event) => {
@@ -282,6 +296,12 @@ const NurseStatus = () => {
                     modules={[AllCommunityModule]}
                     onCellEditCommit={onCellEditCommit}  // 셀 편집 완료 후 데이터 추적
                     onCellValueChanged={onCellValueChanged}
+                    onFirstDataRendered={onFirstDataRendered}
+                    defaultColDef={{
+                        sortable: false,   // ✅ 헤더 정렬 비활성화
+                        resizable: true,
+                        minWidth: 100,
+                        }}
                     
                     
                 />

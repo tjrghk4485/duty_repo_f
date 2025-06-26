@@ -151,7 +151,7 @@ const NurseSchedule = () => {
   const sideDateHeaders = () => {
     const dateHeaders = [];
     const beforeDay = new Date(year, month-1, 0).getDate();
-    console.log('beforeDay=' + beforeDay);
+    //console.log('beforeDay=' + beforeDay);
     for (let day = (beforeDay-3); day <= beforeDay; day++) {
       const date = new Date(year, month - 1, day); // JS는 month가 0부터 시작
       const dayOfWeek = date.getDay(); // 0: 일요일, 6: 토요일
@@ -206,7 +206,7 @@ const NurseSchedule = () => {
     selectRow();
     sideSelectRow();
     
-    console.log(`그리드 ${gridIndex} 준비 완료`, params.api);
+    //console.log(`그리드 ${gridIndex} 준비 완료`, params.api);
   };
 
   const selectRow = () => {
@@ -235,7 +235,7 @@ const NurseSchedule = () => {
         //console.log("response.data" + response.data);
     })
   .catch(error => alert('Error:', error));
-    console.log("gridApi.current[1]=" + gridApi.current[1]);
+    //console.log("gridApi.current[1]=" + gridApi.current[1]);
   //const allData = gridApi.current[1].getRenderedNodes().map(node => node.data);
 
   };
@@ -253,7 +253,7 @@ const NurseSchedule = () => {
           work_date: yyyymm
         
     });
-      console.log('서버 응답:', response.data.output_msg);
+      //console.log('서버 응답:', response.data.output_msg);
       alert('서버 응답:' + response.data.output_msg);
       if(response.data.output_msg == '저장되었습니다'){
         selectRow();
@@ -369,7 +369,7 @@ const NurseSchedule = () => {
   const onCellKeyDown = (event) => {
     const selectedCell = gridApi.current[1].getFocusedCell(); 
     const rowNode = gridApi.current[1].getDisplayedRowAtIndex(selectedCell.rowIndex);
-    console.log("event.event.code=" + event.event.code);
+    //console.log("event.event.code=" + event.event.code);
     if(event.event.code =='KeyD'){
       rowNode.setDataValue(selectedCell.column.getColId(), 'D');
       gridApi.current[1].tabToNextCell(event);
@@ -399,8 +399,8 @@ const NurseSchedule = () => {
     
       
       
-      console.log('gridIndex'+gridIndex);
-      console.log('rowNode'+rowNode);
+      //console.log('gridIndex'+gridIndex);
+      //console.log('rowNode'+rowNode);
     //   const allData = [];
     //   gridApi.current[1].forEachNode((node) => {
     //       allData.push(node.data); // 각 행의 데이터를 배열에 추가
@@ -412,7 +412,7 @@ const NurseSchedule = () => {
     // const rowDataForGrid = transformedData(processedData);
     
     // console.log(rowDataForGrid);
-    // setUnderRowData(rowDataForGrid);
+     setUnderRowData(rowDataForGrid);
     selectUnderGrid();
     };
 
@@ -516,12 +516,12 @@ const NurseSchedule = () => {
           allData.push(node.data); // 각 행의 데이터를 배열에 추가
       });
       
-      console.log("변경시받아오는데이터:", allData);
+      //console.log("변경시받아오는데이터:", allData);
       // rawData (데이터)를 처리하고 변환된 데이터를 그리드에서 사용할 수 있는 형태로 바꿈
     const processedData = processData(allData);
     const rowDataForGrid = transformedData(processedData);
     
-    console.log(rowDataForGrid);
+    //console.log(rowDataForGrid);
     setUnderRowData(rowDataForGrid);
 
     };
@@ -537,11 +537,11 @@ const NurseSchedule = () => {
     return (
       
       <div>
-        <div class="header-container">
-          <div class="button-title-group">
-            <button class="nav-button" onClick={backMonth}>{month-1}월</button>
+        <div className="header-container">
+          <div className="button-title-group">
+            <button className="nav-button" onClick={backMonth}>{month-1}월</button>
             <h2>{month}월 듀티표</h2>
-            <button class="nav-button" onClick={addMonth}>{month+1}월</button>
+            <button className="nav-button" onClick={addMonth}>{month+1}월</button>
           </div>
         </div>  
         <div>
@@ -600,7 +600,7 @@ const NurseSchedule = () => {
       />
       </div>
       </div>
-      <div className="ag-theme-alpine" style={{  marginTop: '50px', marginLeft: '210px',height: 150, width: '1477px'}}>
+      <div className="ag-theme-alpine" style={{  marginTop: '50px', marginLeft: '210px',height: 128, width: '1477px'}}>
       <AgGridReact
            ref={(el) => gridRef.current[2] = el}
           columnDefs={underColumnDefs}
