@@ -546,19 +546,19 @@ const NurseSchedule = () => {
         </div>  
         <div>
           <a>전달 근무</a>
-          <button id='defBut' onClick={createDuty} style={{ position: 'relative',left: `1180px`, }}>
+          <button id='defBut' onClick={createDuty} style={{ position: 'relative',left: `1100px`, }}>
                 생성
           </button>
-          <button id='defBut' onClick={deletAllData} style={{ position: 'relative',left: `1180px`, }}>
+          <button id='defBut' onClick={deletAllData} style={{ position: 'relative',left: `1100px`, }}>
             초기화
           </button>
-          <button id='defBut' onClick={sendDataToServer} style={{ position: 'relative',left: `1180px`, }}>
+          <button id='defBut' onClick={sendDataToServer} style={{ position: 'relative',left: `1100px`, }}>
             저장
           </button>
-          <button id='defBut'onClick={() => setOpen(true)} style={{ position: 'relative',left: `1180px`, }}>
+          <button id='defBut'onClick={() => setOpen(true)} style={{ position: 'relative',left: `1100px`, }}>
             최적화
           </button>
-          <button id='defBut'onClick={onBtnExport} style={{ position: 'relative',left: `1180px`, }}>
+          <button id='defBut'onClick={onBtnExport} style={{ position: 'relative',left: `1100px`, }}>
           표 다운
           </button>
           <OptimizeDialog open={open} onClose={() => setOpen(false)} onRun={handleRun} yyyymm ={yyyymm}/>

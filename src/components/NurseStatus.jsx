@@ -281,10 +281,10 @@ const NurseStatus = () => {
             <div className="absolute top-0 right-0">
             <h5>엑셀 업로드</h5>
             <input type="file" accept=".xlsx, .xls" onChange={handleFileUpload} />
-            <button id='defBut' onClick={sendDataToServer} style={{ position: 'relative',left: `690px`, }}>
+            <button id='defBut' onClick={sendDataToServer} style={{ position: 'relative',left: `490px`, }}>
                 저장
             </button>
-            <button id='defBut' onClick={addRow}style={{ position: 'relative',left: `690px`, }}>행 추가</button>
+            <button id='defBut' onClick={addRow}style={{ position: 'relative',left: `490px`, }}>행 추가</button>
         </div>
             <div className="ag-theme-alpine" style={{ height: 200, width: '1000px' }}>
                 <AgGridReact
