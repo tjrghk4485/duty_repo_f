@@ -8,6 +8,7 @@ import * as XLSX from 'xlsx';
 
 // AG-Grid에서 필요한 모듈을 import
 import { AllCommunityModule } from 'ag-grid-community';
+import apiClient from './util/apiClient';
 
 const NurseStatus = () => {
     const gridApi = useRef(null);
@@ -92,7 +93,8 @@ const NurseStatus = () => {
     };
 
     const selectRow = () => {
-        axios.get('http://localhost:3001/nurse/sel',{
+        // axios.get('http://localhost:3001/nurse/sel',{
+            apiClient.get('/nurse/sel',{
             params: {
                 parent_id: localStorage.getItem('userId')
             }

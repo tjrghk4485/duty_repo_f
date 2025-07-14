@@ -38,7 +38,7 @@ function App() {
         // 🚀 로그인 안 되어 있으면 로그인 화면만 표시
         <Routes>
           <Route path="/login" element={<Login valueChk={() => setIsLoggedIn(true)}/>} />
-          <Route path="/auth/kakao" element={<KakaoAuth valueChk={() => setIsLoggedIn(true)}/>} />
+          <Route path="/auth/kakao/Fe" element={<KakaoAuth valueChk={() => setIsLoggedIn(true)}/>} />
           <Route path="/register" element={<Register valueChk={() => setIsLoggedIn(true)}/>} />
           <Route path="*" element={<Login valueChk={() => setIsLoggedIn(true)}/>} />
           
@@ -50,7 +50,7 @@ function App() {
           <div className="main-content">
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/auth/kakao" element={<KakaoAuth />} />
+              <Route path="/auth/kakao/Fe" element={<KakaoAuth />} />
               <Route path="/nurseStatus" element={<NurseStatus />} />
               <Route path="/nurseSchedule" element={<NurseSchedule />} />
               <Route path="*" element={<NoMatch />} />

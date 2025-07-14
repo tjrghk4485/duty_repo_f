@@ -10,7 +10,7 @@ const Login = ({valueChk}) => {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const Rest_api_key='b656293336f5e166383d543eb8f22357' //REST API KEY
-    const redirect_uri = 'http://localhost:3000/auth/kakao' //Redirect URI
+    const redirect_uri = 'http://localhost:3001/auth/kakao/Fe' //Redirect URI
     // oauth 요청 URL
     const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`
     const handleLogin = (event)=>{
