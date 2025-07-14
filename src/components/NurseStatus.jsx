@@ -76,6 +76,7 @@ const NurseStatus = () => {
         { headerName: "간호사번호", width:80, field: "nurse_id", editable: true , hide: true, cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"},
         { headerName: "이름", width:80, field: "nurse_nm", editable: true , cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"},
         { headerName: "근무시작일", width:80, field: "start_date", editable: true , cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"},
+        { headerName: "리더여부", width:80, field: "part_leader_yn", editable: true , cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"},
         { headerName: "선호근무", width:80, field: "keep_type",  editable: true, cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header",
             cellEditor: 'agSelectCellEditor',
             cellEditorParams: {
@@ -139,6 +140,7 @@ const NurseStatus = () => {
         const allData = [];
         gridApi.current.forEachNode((node) => {
             if (node.data.status){
+                node.data.parent_id = localStorage.getItem('userId'),
                 allData.push(node.data); // 각 행의 데이터를 배열에 추가
             }
             
@@ -280,8 +282,11 @@ const NurseStatus = () => {
     return (
         <div className="main-content">
             <h2>간호사정보</h2>
+            <a href="http://localhost:3001/sample/nurseUpload.xlsx" download>
+            샘플 엑셀 다운로드
+            </a>
             <div className="absolute top-0 right-0">
-            <h5>엑셀 업로드</h5>
+           
             <input type="file" accept=".xlsx, .xls" onChange={handleFileUpload} />
             <button id='defBut' onClick={sendDataToServer} style={{ position: 'relative',left: `490px`, }}>
                 저장

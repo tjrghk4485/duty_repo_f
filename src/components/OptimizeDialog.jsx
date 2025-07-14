@@ -10,11 +10,12 @@ export default function OptimizeDialog({ open, onClose, yyyymm }) {
         
       // 여기에 실제 API 호출
       const res = await axios.post('http://localhost:3001/schedule/auto', 
-        { option: 1,
+        { option: option,
           parent_id: localStorage.getItem('userId'),
           work_date: yyyymm 
         });
       alert('최적화 완료! 결과: ' + res.data.message);
+      console.log("option" + option);
     } catch (err) {
       alert('에러 발생: ' + err.message);
     } finally {
