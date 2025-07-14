@@ -62,23 +62,26 @@ const NurseStatus = () => {
     // 셀 편집 완료 후 호출되는 이벤트
     const onCellEditCommit = (event) => {
         console.log('수정된 데이터:', event.data);
+         if (gridApi.current) {
+            gridApi.current.sizeColumnsToFit();
+        }
     };
 
     
 
     const columns = [
-        { headerName: "삭제", field: "delete",editable: true},
-        { headerName: "상태", field: "status", editable: false },
-        { headerName: "사용자", field: "parent_id", editable: true },
-        { headerName: "간호사번호", field: "nurse_id", editable: true },
-        { headerName: "이름", field: "nurse_nm", editable: true },
-        { headerName: "근무시작일", field: "start_date", editable: true },
-        { headerName: "선호근무", field: "keep_type",  editable: true,
+        { headerName: "삭제", width:50, field: "delete",editable: true, cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"},
+        { headerName: "상태", width:80, field: "status", editable: false, hide: true, cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"},
+        { headerName: "사용자", width:80, field: "parent_id", editable: true , hide: true, cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"},
+        { headerName: "간호사번호", width:80, field: "nurse_id", editable: true , hide: true, cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"},
+        { headerName: "이름", width:80, field: "nurse_nm", editable: true , cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"},
+        { headerName: "근무시작일", width:80, field: "start_date", editable: true , cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"},
+        { headerName: "선호근무", width:80, field: "keep_type",  editable: true, cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header",
             cellEditor: 'agSelectCellEditor',
             cellEditorParams: {
               values: ['D', 'E', 'N','X'],
             }},
-        { headerName: "사용여부", field: "use_yn", editable: true }
+        { headerName: "사용여부", width:80, field: "use_yn", editable: true , cellStyle: { borderRight: "1px solid #ccc"},headerClass: "ag-center-header"}
     ];
     //===============================잡기능==============================================//
     const addRow = () => {
@@ -226,6 +229,17 @@ const NurseStatus = () => {
                 return row; // 나머지 행은 그대로
             });
         });
+
+         setTimeout(() => {
+            gridApi.current.sizeColumnsToFit();
+          }, 10);
+
+    };
+
+    const onFirstDataRendered = (params) => {
+    setTimeout(() => {
+            gridApi.current.sizeColumnsToFit();
+          }, 10);
     };
 
     const handleFileUpload = (event) => {
@@ -269,12 +283,12 @@ const NurseStatus = () => {
             <div className="absolute top-0 right-0">
             <h5>엑셀 업로드</h5>
             <input type="file" accept=".xlsx, .xls" onChange={handleFileUpload} />
-            <button id='defBut' onClick={sendDataToServer} style={{ position: 'relative',left: `690px`, }}>
+            <button id='defBut' onClick={sendDataToServer} style={{ position: 'relative',left: `490px`, }}>
                 저장
             </button>
-            <button id='defBut' onClick={addRow}style={{ position: 'relative',left: `690px`, }}>행 추가</button>
+            <button id='defBut' onClick={addRow}style={{ position: 'relative',left: `490px`, }}>행 추가</button>
         </div>
-            <div className="ag-theme-alpine" style={{ height: 200, width: '1200px' }}>
+            <div className="ag-theme-alpine" style={{ height: 200, width: '1000px' }}>
                 <AgGridReact
                     onGridReady={onGridReady}
                     columnDefs={columns}
@@ -284,6 +298,12 @@ const NurseStatus = () => {
                     modules={[AllCommunityModule]}
                     onCellEditCommit={onCellEditCommit}  // 셀 편집 완료 후 데이터 추적
                     onCellValueChanged={onCellValueChanged}
+                    onFirstDataRendered={onFirstDataRendered}
+                    defaultColDef={{
+                        sortable: false,   // ✅ 헤더 정렬 비활성화
+                        resizable: true,
+                        minWidth: 100,
+                        }}
                     
                     
                 />
