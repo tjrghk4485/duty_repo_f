@@ -4,13 +4,16 @@ import { NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import apiClient from '../env/apiClient';
 
 const Login = ({valueChk}) => {
+    const API_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL;
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const Rest_api_key='b656293336f5e166383d543eb8f22357' //REST API KEY
-    const redirect_uri = 'http://localhost:3001/auth/kakao/Fe' //Redirect URI
+    //const redirect_uri = `${API_BASE_URL}/auth/kakao/Fe` //Redirect URI운영
+    const redirect_uri = 'http://localhost:3000/auth/kakao/Fe' //Redirect URI개발발
     // oauth 요청 URL
     const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`
     const handleLogin = (event)=>{
@@ -33,7 +36,8 @@ const Login = ({valueChk}) => {
     const login = async (event) => {
         event.preventDefault(); // form 제출 막기
         try {
-            const responseData = await axios.get('http://localhost:3001/user/login', {
+             const responseData = await axios.get(`${API_BASE_URL}/user/login`, {
+            //const responseData = apiClient.get('/user/login',{
               params:{
                 "id": id,
                 "password" : password

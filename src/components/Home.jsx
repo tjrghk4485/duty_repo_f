@@ -4,7 +4,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import './css/Menu.css'
 import axios from 'axios';
-import apiClient from './util/apiClient';
+import apiClient from './env/apiClient';
 
 // AG-Grid에서 필요한 모듈을 import
 import { AllCommunityModule } from 'ag-grid-community';
@@ -14,7 +14,7 @@ const Home = ({valueChk}) => {
   const gridApi = useRef(null);
   const columnApi = useRef(null);
   const [rowData, setRowData] = useState([]); // useState로 수정 
-  
+  const API_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL;
   
 
   const onGridReady = (params) => {
@@ -23,7 +23,7 @@ const Home = ({valueChk}) => {
       columnApi.current = params.columnApi;
       gridApi.current.sizeColumnsToFit();
 
-  //     axios.get('http://localhost:3001/bm/nurse/sel',{
+  //     axios.get(`${API_BASE_URL}/bm/nurse/sel',{
   //         params: {
   //             parent_id: '100'
   //         }
@@ -77,7 +77,7 @@ const Home = ({valueChk}) => {
   };
 
   const selectRow = () => {
-      //axios.get('http://localhost:3001/nurse/sel',{
+      //axios.get(`${API_BASE_URL}/nurse/sel',{
         apiClient.get('/nurse/sel',{
           params: {
               parent_id: localStorage.getItem('userId')
@@ -127,7 +127,7 @@ const sendDataToServer = async () => {
       
       console.log("전체 데이터:", allData);
       try {
-          const response = await axios.post('http://localhost:3001/nurse/mod', allData);
+          const response = await axios.post(`${API_BASE_URL}/nurse/mod`, allData);
           console.log('서버 응답:', response.data.output_msg);
           alert('서버 응답:' + response.data.output_msg);
           if(response.data.output_msg == '저장되었습니다'){

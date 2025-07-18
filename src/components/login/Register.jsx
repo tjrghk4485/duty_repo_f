@@ -16,7 +16,7 @@ const Register = ({valueChk}) => {
     const navigate = useNavigate();
     const [isIdCheck, setIsIdCheck] = useState(false); // 중복 검사를 했는지 안했는지
     const [isIdAvailable, setIsIdAvailable] = useState(false); // 아이디 사용 가능한지 아닌지
-
+    const API_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL;
     const onChangeIdHandler = (e) => {
         const idValue = e.target.value;
         setId(idValue);
@@ -53,7 +53,7 @@ const Register = ({valueChk}) => {
           return false;
         }
         try {
-          const responseData = await axios.get('http://localhost:3001/user/chk', {params: {
+          const responseData = await axios.get(`${API_BASE_URL}/user/chk`, {params: {
             "id": id
         }});
           console.log("responseData:" +responseData.data[0]);
@@ -122,7 +122,7 @@ const Register = ({valueChk}) => {
         };
         console.log("requestData=" + JSON.stringify(requestData));
         try {
-          const responseData = await axios.post('http://localhost:3001/user/mod', {
+          const responseData = await axios.post(`${API_BASE_URL}/user/mod`, {
             "id": id,
             "password" : password,
             "user_nm" : user_nm

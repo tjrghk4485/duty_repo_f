@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const KakaoAuth = ({valueChk}) => {
+    const API_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL;
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -18,7 +19,7 @@ const KakaoAuth = ({valueChk}) => {
 
     const getAccessToken = async (code) => {
         try {
-            const response = await fetch("http://localhost:3001/auth/kakao", {
+            const response = await fetch(`${API_BASE_URL}/auth/kakao`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ code: code }),

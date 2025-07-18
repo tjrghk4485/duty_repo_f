@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-export default function OptimizeDialog({ open, onClose, yyyymm }) {
+export default function OptimizeDialog({ open, onClose, yyyymm, sel1, sel2 }) {
   const [loading, setLoading] = useState(false);
   const [option, setOption] = useState(3);
+  const API_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL;
   const handleRun = async () => {
     setLoading(true);
     try {
         
       // 여기에 실제 API 호출
-      const res = await axios.post('http://localhost:3001/schedule/auto', 
+      const res = await axios.post(`${API_BASE_URL}/schedule/auto`, 
         { option: option,
           parent_id: localStorage.getItem('userId'),
           work_date: yyyymm 
@@ -21,6 +22,8 @@ export default function OptimizeDialog({ open, onClose, yyyymm }) {
     } finally {
       setLoading(false);
       onClose();
+      sel1();
+      sel2();
     }
   };
 

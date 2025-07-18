@@ -46,6 +46,7 @@ const NurseSchedule = () => {
     const [lastDay, setLastDay] = useState(0);
     const [yyyymm, setYyyymm] = useState('');
     const [open, setOpen] = useState(false);
+    const API_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL;
     // month나 year가 바뀔 때마다 lastDay, yyyymm 다시 계산
     useEffect(() => {
       
@@ -56,7 +57,12 @@ const NurseSchedule = () => {
       setLastDay(newLastDay);
       setYyyymm(newYyyymm);
       console.log('yyyymm1' + yyyymm);
-  
+
+      setTimeout(() => {
+      selectRow();
+      sideSelectRow();
+      }, 1000);
+      
     }, [month]);
 
     useEffect(() => {
@@ -82,8 +88,8 @@ const NurseSchedule = () => {
     useEffect(() => {
       if (columnDefs.length > 0) {
         setTimeout(() => {
-          selectRow();
-          sideSelectRow();
+          // selectRow();
+          // sideSelectRow();
         }, 0);
       }
     }, [columnDefs]);
@@ -210,7 +216,7 @@ const NurseSchedule = () => {
   };
 
   const selectRow = () => {
-    axios.get('http://localhost:3001/schedule/sel',{
+    axios.get(`${API_BASE_URL}/schedule/sel`,{
         params: {
           parent_id: localStorage.getItem('userId'),
           work_date: yyyymm
@@ -218,13 +224,13 @@ const NurseSchedule = () => {
     })
     .then(response => {
         setRowData(response.data);
-        //console.log("response.data" + response.data);
+        console.log("조회yyyymm" + yyyymm);
     })
   .catch(error => alert('Error:', error));
   };
 
   const sideSelectRow = () => {
-    axios.get('http://localhost:3001/schedule/side/sel',{
+    axios.get(`${API_BASE_URL}/schedule/side/sel`,{
         params: {
           parent_id: localStorage.getItem('userId'),
           work_date: yyyymm-1
@@ -247,7 +253,7 @@ const NurseSchedule = () => {
     }
 
     try {
-      const response =  await axios.post('http://localhost:3001/schedule/create', {
+      const response =  await axios.post(`${API_BASE_URL}/schedule/create`, {
         
           parent_id: localStorage.getItem('userId'),
           work_date: yyyymm
@@ -273,7 +279,7 @@ const NurseSchedule = () => {
     }
 
     try {
-      const response =  await axios.post('http://localhost:3001/schedule/delete', {
+      const response =  await axios.post(`${API_BASE_URL}/schedule/delete`, {
         
           parent_id: localStorage.getItem('userId'),
           work_date: yyyymm
@@ -322,7 +328,7 @@ const NurseSchedule = () => {
         console.log("수정 후 전체 데이터:",formattedData);
 
         try {
-            const response = await axios.post('http://localhost:3001/schedule/mod', formattedData);
+            const response = await axios.post(`${API_BASE_URL}/schedule/mod`, formattedData);
             console.log('서버 응답:', response.data.output_msg);
             alert('서버 응답:' + response.data.output_msg);
             selectRow();
@@ -345,7 +351,7 @@ const NurseSchedule = () => {
     }
 
     try {
-      const response =  await axios.post('http://localhost:3001/schedule/auto', {
+      const response =  await axios.post(`${API_BASE_URL}/schedule/auto`, {
         
           parent_id: localStorage.getItem('userId'),
           work_date: yyyymm,
@@ -412,12 +418,13 @@ const NurseSchedule = () => {
     // const rowDataForGrid = transformedData(processedData);
     
     // console.log(rowDataForGrid);
+    gridRef.current[gridIndex].api.sizeColumnsToFit();
      setUnderRowData(rowDataForGrid);
     selectUnderGrid();
     };
 
       const backMonth = () => {
-        setMonth(prev => prev - 1);
+        setMonth(month - 1);
         
       };
 
@@ -442,17 +449,18 @@ const NurseSchedule = () => {
     
 
     const addMonth = () =>{
-      setMonth(month +1);
-      const dateHeaders = generateDateHeaders();
-      setColumnDefs(prevDefs => {
-        // 기존 날짜 컬럼 제거
-        const baseCols = prevDefs.filter(col => !col.isDynamic);
-        // 제거한 다음 새 날짜 컬럼 추가
-        return [...baseCols, ...dateHeaders];
-      });
-    console.log('yyyymm' + yyyymm);
-      selectRow();
-      sideSelectRow();
+      // setMonth(month +1);
+      setMonth(month + 1);
+    //   const dateHeaders = generateDateHeaders();
+    //   setColumnDefs(prevDefs => {
+    //     // 기존 날짜 컬럼 제거
+    //     const baseCols = prevDefs.filter(col => !col.isDynamic);
+    //     // 제거한 다음 새 날짜 컬럼 추가
+    //     return [...baseCols, ...dateHeaders];
+    //   });
+    // console.log('yyyymm' + yyyymm);
+    //   selectRow();
+    //   sideSelectRow();
     }
 
 
@@ -561,7 +569,7 @@ const NurseSchedule = () => {
           <button id='defBut'onClick={onBtnExport} style={{ position: 'relative',left: `1100px`, }}>
           표 다운
           </button>
-          <OptimizeDialog open={open} onClose={() => setOpen(false)} onRun={handleRun} yyyymm ={yyyymm}/>
+          <OptimizeDialog open={open} onClose={() => setOpen(false)} onRun={handleRun} yyyymm ={yyyymm} sel1 = {selectRow} sel2 = {sideSelectRow}/>
         </div>
             <div style={{ display: 'flex' }}>
             <div className="ag-theme-alpine" style={{ height: 400, width: '200px'}}>

@@ -8,7 +8,7 @@ import * as XLSX from 'xlsx';
 
 // AG-Grid에서 필요한 모듈을 import
 import { AllCommunityModule } from 'ag-grid-community';
-import apiClient from './util/apiClient';
+import apiClient from './env/apiClient';
 
 const NurseStatus = () => {
     const gridApi = useRef(null);
@@ -26,14 +26,14 @@ const NurseStatus = () => {
         "사용여부": "use_yn",
       };
     
-
+      const API_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL;
     const onGridReady = (params) => {
         console.log("localStorage=" + localStorage.getItem("kakaoId"));
         gridApi.current = params.api;
         columnApi.current = params.columnApi;
         gridApi.current.sizeColumnsToFit();
 
-    //     axios.get('http://localhost:3001/bm/nurse/sel',{
+    //     axios.get(`${API_BASE_URL}/bm/nurse/sel',{
     //         params: {
     //             parent_id: '100'
     //         }
@@ -97,8 +97,7 @@ const NurseStatus = () => {
     };
 
     const selectRow = () => {
-        // axios.get('http://localhost:3001/nurse/sel',{
-            apiClient.get('/nurse/sel',{
+         axios.get(`${API_BASE_URL}/nurse/sel`,{
             params: {
                 parent_id: localStorage.getItem('userId')
             }
@@ -114,6 +113,9 @@ const NurseStatus = () => {
     
     const allData = gridApi.current.getRenderedNodes().map(node => node.data);
     console.log("테이블데이터 =", allData);
+    setTimeout(() => {
+        gridApi.current.sizeColumnsToFit();
+      }, 100);
     };
 
     const getRowData = () => {
@@ -132,7 +134,7 @@ const NurseStatus = () => {
     if(!confirm('저장하시겠습니까?')) {
         return;
     }
-
+    gridApi.current.setFocusedCell(1, 'delete');
     // gridApi가 초기화되었을 때만 호출
     if (gridApi.current) {
         // const selectedData = gridApi.current.getSelectedRows();  // 선택된 데이터 가져오기
@@ -148,12 +150,12 @@ const NurseStatus = () => {
         
         console.log("전체 데이터:", allData);
         try {
-            const response = await axios.post('http://localhost:3001/nurse/mod', allData);
+            const response = await axios.post(`${API_BASE_URL}/nurse/mod`, allData);
             console.log('서버 응답:', response.data.output_msg);
             alert('서버 응답:' + response.data.output_msg);
             if(response.data.output_msg == '저장되었습니다'){
                 selectRow();
-            }
+                }
             
         } catch (error) {
             console.log('서버에 데이터 전송 중 오류:', error.response);
@@ -282,7 +284,7 @@ const NurseStatus = () => {
     return (
         <div className="main-content">
             <h2>간호사정보</h2>
-            <a href="http://localhost:3001/sample/nurseUpload.xlsx" download>
+            <a href={`${API_BASE_URL}/sample/nurseUpload.xlsx`} download>
             샘플 엑셀 다운로드
             </a>
             <div className="absolute top-0 right-0">
