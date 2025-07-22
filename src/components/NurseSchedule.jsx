@@ -56,14 +56,16 @@ const NurseSchedule = () => {
   
       setLastDay(newLastDay);
       setYyyymm(newYyyymm);
-      console.log('yyyymm1' + yyyymm);
-
-      setTimeout(() => {
-      selectRow();
-      sideSelectRow();
-      }, 1000);
+ 
       
     }, [month]);
+
+    useEffect(() => {
+      selectRow();
+      sideSelectRow();
+ 
+      
+    }, [yyyymm]);
 
     useEffect(() => {
       // 여기에 날짜 헤더 생성 및 columnDefs 업데이트 추가!
