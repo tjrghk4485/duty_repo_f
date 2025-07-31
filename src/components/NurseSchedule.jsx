@@ -20,7 +20,7 @@ const NurseSchedule = () => {
   const [underRowData, setUnderRowData] = useState([]);
   const [sideRowData, setSideRowData] = useState([]);
   const [columnDefs, setColumnDefs] = useState([
-        { headerName: "name", field: "name" ,width:80,headerClass: ['ag-center-header','df-header'],
+        { headerName: "name", field: "name" ,width:80,editable: false,headerClass: ['ag-center-header','df-header'],
           cellStyle: {
           borderRight: "1px solid #ccc"
         }},
@@ -99,7 +99,10 @@ const NurseSchedule = () => {
     useEffect(() => {
       if (rowData.length > 0) {
         // rowData가 업데이트된 후 selectUnderGrid 호출
-        selectUnderGrid();
+        setTimeout(() => {
+      selectUnderGrid();
+    }, 10);
+        
       }
     }, [rowData]);
   const gridRef = useRef([]);
@@ -216,6 +219,8 @@ const NurseSchedule = () => {
     
     //console.log(`그리드 ${gridIndex} 준비 완료`, params.api);
   };
+
+  
 
   const selectRow = () => {
     axios.get(`${API_BASE_URL}/schedule/sel`,{
@@ -378,23 +383,27 @@ const NurseSchedule = () => {
     const selectedCell = gridApi.current[1].getFocusedCell(); 
     const rowNode = gridApi.current[1].getDisplayedRowAtIndex(selectedCell.rowIndex);
     //console.log("event.event.code=" + event.event.code);
-    if(event.event.code =='KeyD'){
-      rowNode.setDataValue(selectedCell.column.getColId(), 'D');
-      gridApi.current[1].tabToNextCell(event);
-    }
-    else if(event.event.code =='KeyE'){
-      rowNode.setDataValue(selectedCell.column.getColId(), 'E');
-      gridApi.current[1].tabToNextCell(event);
-    }
-    else if(event.event.code =='KeyO'){
-      rowNode.setDataValue(selectedCell.column.getColId(), 'O');
-      gridApi.current[1].tabToNextCell(event);
-    }
-    else if(event.event.code =='KeyN'){
-      rowNode.setDataValue(selectedCell.column.getColId(), 'N');
-      gridApi.current[1].tabToNextCell(event);
-    }
-    
+    if(selectedCell.column.colId != "name"){
+      if(event.event.code =='KeyD'){
+        rowNode.setDataValue(selectedCell.column.getColId(), 'D');
+        gridApi.current[1].tabToNextCell(event);
+        console.log("selectedCell" + selectedCell);
+      }
+      else if(event.event.code =='KeyE'){
+        rowNode.setDataValue(selectedCell.column.getColId(), 'E');
+        gridApi.current[1].tabToNextCell(event);
+      }
+      else if(event.event.code =='KeyO'){
+        rowNode.setDataValue(selectedCell.column.getColId(), 'O');
+        gridApi.current[1].tabToNextCell(event);
+      }
+      else if(event.event.code =='KeyN'){
+        rowNode.setDataValue(selectedCell.column.getColId(), 'N');
+        gridApi.current[1].tabToNextCell(event);
+      }
+  }else{
+    gridApi.current[1].tabToNextCell(event);
+  }
 
     
   };
@@ -420,9 +429,11 @@ const NurseSchedule = () => {
     // const rowDataForGrid = transformedData(processedData);
     
     // console.log(rowDataForGrid);
-    gridRef.current[gridIndex].api.sizeColumnsToFit();
-     setUnderRowData(rowDataForGrid);
-    selectUnderGrid();
+    // gridRef.current[gridIndex].api.sizeColumnsToFit();
+     //setUnderRowData(rowDataForGrid);
+     setTimeout(() => {
+      selectUnderGrid();
+    }, 5);
     };
 
       const backMonth = () => {
@@ -522,6 +533,7 @@ const NurseSchedule = () => {
     const selectUnderGrid = () => {
 
       const allData = [];
+      
       gridApi.current[1].forEachNode((node) => {
           allData.push(node.data); // 각 행의 데이터를 배열에 추가
       });
@@ -610,7 +622,7 @@ const NurseSchedule = () => {
       />
       </div>
       </div>
-      <div className="ag-theme-alpine" style={{  marginTop: '50px', marginLeft: '210px',height: 128, width: '1477px'}}>
+      <div className="ag-theme-alpine" style={{  marginTop: '30px', marginLeft: '210px',height: 158, width: '1477px'}}>
       <AgGridReact
            ref={(el) => gridRef.current[2] = el}
           columnDefs={underColumnDefs}
@@ -621,6 +633,8 @@ const NurseSchedule = () => {
           onCellValueChanged={(params) => onCellValueChanged(params, 2)}
           suppressClipboardPaste={false} // 붙여넣기 허용
           rowSelection="multiple"       // 다중 선택 모드
+          suppressMovableColumns={true}
+          //domLayout="autoHeight"
           defaultColDef={{
             sortable: false,   // ✅ 헤더 정렬 비활성화
             resizable: true,

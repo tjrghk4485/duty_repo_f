@@ -21,6 +21,7 @@ const NurseStatus = () => {
         "사용자": "parent_id",
         "간호사번호": "nurse_id",
         "이름": "nurse_nm",
+        "리더여부": "part_leader_yn",
         "근무시작일": "start_date",
         "선호근무": "keep_type",
         "사용여부": "use_yn",
@@ -91,7 +92,8 @@ const NurseStatus = () => {
                             status: 'I',
                             parent_id: localStorage.getItem('userId'),
                             keep_type: 'X',
-                            use_yn: false 
+                            part_leader_yn: false,
+                            use_yn: true 
                         };
         setRowData([...rowData, newItem]);
     };
@@ -261,9 +263,11 @@ const NurseStatus = () => {
           const jsonData = XLSX.utils.sheet_to_json(worksheet);
           
           setExcelData(jsonData);
+          const convertedData = jsonData.map(convertKeys);
           console.log('엑셀 파싱 결과:', jsonData);
           console.log('기존로우데이터:', rowData);
-          const convertedData = jsonData.map(convertKeys);
+          console.log('convertedData:', convertedData);
+          
     setRowData([...rowData, ...convertedData]); // AG Grid에 적용
         };
     

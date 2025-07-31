@@ -12,6 +12,7 @@ const Menu = ({valueChk}) => {
   const [nickname, setNickname] = useState("");
   const [profileImage, setProfileImage] = useState("");
   const navigate = useNavigate();
+  const API_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL;
   useEffect(() => {
     const storedNickname = localStorage.getItem("nickname");
     const storedProfileImage = localStorage.getItem("profile_image");
@@ -43,7 +44,7 @@ const Menu = ({valueChk}) => {
       <div
       style={{
         display: 'flex',
-        justifyContent: 'center',  // 수평 중앙 정렬
+        justifyContent: 'left',  // 수평 중앙 정렬
       }}
     >
       <img src={domainIcon} width="150" height="100" alt="Domain Icon" />
@@ -72,16 +73,16 @@ const Menu = ({valueChk}) => {
         className="d-flex align-items-center link-dark text-decoration-none "
         aria-expanded={isOpen ? 'true' : 'false'}
       >
-        <img
+        {/* <img
           src= {localStorage.getItem("profile_image")}
           alt=""
           width="32"
           height="32"
           className="rounded-circle me-2"
-        />
-        <a>{localStorage.getItem("nickname")}님,반갑습니다.</a>       
+        /> */}
+        {/* <a>{localStorage.getItem("nickname")}님,반갑습니다.</a>        */}
       </div>
-
+      
       {/* 드롭다운 메뉴 */}
       {isOpen && (
         <ul className="dropup-menu text-small shadow show">
@@ -93,15 +94,23 @@ const Menu = ({valueChk}) => {
         </ul>
       )}
     </div>
+    
     <div style={{
             position: 'absolute',
             bottom: '0', // 부모 div 맨 밑으로 배치
             right: '10px',
             marginTop: '5px',  // 추가적인 공간을 위해 옵션으로 설정
-          }}><a href="#" onClick={handleLogout}><img src= {outIcon} 
-          alt="임시로그아웃" width="20"height="20" className="me-2" /> 로그아웃
-          </a>
-          </div>
+            alignItems: 'flex-end',
+            display: 'flex',          // Flexbox 컨테이너로 만듭니다.
+            flexDirection: 'column',  // 자식 요소들을 수직으로 쌓습니다.
+          }}>
+        <div>
+            <a href={`${API_BASE_URL}/sample/nurseUpload.xlsx`} download>메뉴얼</a>
+        </div>
+        <div>
+            <a href="#" onClick={handleLogout}><img src= {outIcon} alt="임시로그아웃" width="20" height="20" className="me-2" /> 로그아웃</a>
+        </div>
+      </div>
     
   </div>
     
