@@ -105,7 +105,7 @@ const Menu = ({valueChk}) => {
             flexDirection: 'column',  // 자식 요소들을 수직으로 쌓습니다.
           }}>
         <div>
-            <a href={`${API_BASE_URL}/sample/nurseUpload.xlsx`} download>메뉴얼</a>
+            <a href={`${API_BASE_URL}/sample/dutyGuide.pdf`} target="_blank" rel="noopener noreferrer">메뉴얼</a>
         </div>
         <div>
             <a href="#" onClick={handleLogout}><img src= {outIcon} alt="임시로그아웃" width="20" height="20" className="me-2" /> 로그아웃</a>

@@ -155,20 +155,18 @@ const NurseStatus = () => {
             const response = await axios.post(`${API_BASE_URL}/nurse/mod`, allData);
             console.log('서버 응답:', response.data.output_msg);
             alert('서버 응답:' + response.data.output_msg);
-            if(response.data.output_msg == '저장되었습니다'){
-                selectRow();
-                }
+            selectRow();   
             
-        } catch (error) {
-            console.log('서버에 데이터 전송 중 오류:', error.response);
-            if (error.response && error.response.data && error.response.data.message) {
-                // 서버가 예외 메시지를 JSON으로 내려준 경우
-                alert('서버 에러응답: ' + error.response.data.message);
-            } else {
-                // 서버가 응답을 아예 안 했거나 알 수 없는 오류
-                alert('서버 요청 중 알 수 없는 오류가 발생했습니다.');
+            } catch (error) {
+                console.log('서버에 데이터 전송 중 오류:', error.response);
+                if (error.response && error.response.data && error.response.data.message) {
+                    // 서버가 예외 메시지를 JSON으로 내려준 경우
+                    alert('서버 에러응답: ' + error.response.data.message);
+                } else {
+                    // 서버가 응답을 아예 안 했거나 알 수 없는 오류
+                    alert('서버 요청 중 알 수 없는 오류가 발생했습니다.');
+                }
             }
-        }
     } else {
         console.log("gridApi가 초기화되지 않았습니다.");
     }
@@ -213,7 +211,7 @@ const NurseStatus = () => {
 
 
       const onCellValueChanged = (event) => {
-        const { oldValue, newValue, data, colDef } = event;
+        const { oldValue, newValue, data, colDef, rowIndex } = event;
         console.log(`컬럼: ${colDef.field}, 변경 전 값: ${oldValue}, 변경 후 값: ${newValue}, data.id: ${data.delete}`);
         
       
@@ -221,16 +219,16 @@ const NurseStatus = () => {
 
         // 전체 rowData를 한 번에 갱신 (기존 rowData와 변경된 값만 반영)
         setRowData((prevRowData) => {
-            return prevRowData.map((row) => {
-                if (row.nurse_id === data.nurse_id) {
+            return prevRowData.map((row,index) => {
+                if (rowIndex === index && row.nurse_id === data.nurse_id) {
                     // delete 선택 시 상태 변경
                     if (colDef.field === "delete") {
                         return { ...row, "delete": newValue, "status": newValue ? "D" : null };
                     } 
                     // delete가 아니고 status가 "I"가 아닌 경우
-                    else if (colDef.field !== "status" && data.status !== 'I') {
-                        return { ...row, [colDef.field]: newValue, "status": "U" };
-                    }
+                    // else if (colDef.field !== "status" && data.status !== 'I') {
+                    //     return { ...row, [colDef.field]: newValue, "status": "U" };
+                    // }
                 }
                 return row; // 나머지 행은 그대로
             });
@@ -294,12 +292,12 @@ const NurseStatus = () => {
             <div className="absolute top-0 right-0">
            
             <input type="file" accept=".xlsx, .xls" onChange={handleFileUpload} />
-            <button id='defBut' onClick={sendDataToServer} style={{ position: 'relative',left: `490px`, }}>
+            <button id='defBut' onClick={sendDataToServer} style={{ position: 'relative',left: `90px`, }}>
                 저장
             </button>
-            <button id='defBut' onClick={addRow}style={{ position: 'relative',left: `490px`, }}>행 추가</button>
+            <button id='defBut' onClick={addRow}style={{ position: 'relative',left: `90px`, }}>행 추가</button>
         </div>
-            <div className="ag-theme-alpine" style={{ height: 200, width: '1000px' }}>
+            <div className="ag-theme-alpine" style={{ height: 200, width: '605px' }}>
                 <AgGridReact
                     onGridReady={onGridReady}
                     columnDefs={columns}
