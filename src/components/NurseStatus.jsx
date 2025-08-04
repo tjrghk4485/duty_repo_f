@@ -132,7 +132,7 @@ const NurseStatus = () => {
    
 
   const sendDataToServer = async () => {
-
+    let nullChk = 0;
     if(!confirm('저장하시겠습니까?')) {
         return;
     }
@@ -144,12 +144,17 @@ const NurseStatus = () => {
         const allData = [];
         gridApi.current.forEachNode((node) => {
             if (node.data.status){
+                if (!node.data.start_date && !node.data.nurse_nm) {
+                    alert((parseInt(node.id)  + 1) + "번째 줄에 빈칸이 존재합니다.");
+                    nullChk = 1;
+                    return;
+                }
                 node.data.parent_id = localStorage.getItem('userId'),
                 allData.push(node.data); // 각 행의 데이터를 배열에 추가
             }
             
         });
-        
+        if (nullChk == 1) return;
         console.log("전체 데이터:", allData);
         try {
             const response = await axios.post(`${API_BASE_URL}/nurse/mod`, allData);
@@ -222,13 +227,13 @@ const NurseStatus = () => {
             return prevRowData.map((row,index) => {
                 if (rowIndex === index && row.nurse_id === data.nurse_id) {
                     // delete 선택 시 상태 변경
-                    if (colDef.field === "delete") {
-                        return { ...row, "delete": newValue, "status": newValue ? "D" : null };
+                    if (colDef.field === "delete"&& data.status !== 'I') {
+                        return { ...row, "delete": newValue, "status": newValue ? "D" : "U"};
                     } 
                     // delete가 아니고 status가 "I"가 아닌 경우
-                    // else if (colDef.field !== "status" && data.status !== 'I') {
-                    //     return { ...row, [colDef.field]: newValue, "status": "U" };
-                    // }
+                    else if (colDef.field !== "status" && data.status !== 'I') {
+                        return { ...row, [colDef.field]: newValue, "status": "U" };
+                    }
                 }
                 return row; // 나머지 행은 그대로
             });
