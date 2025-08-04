@@ -28,3 +28,5 @@ dist-ssr
 .env.local
 .env.*.local
 *.env text eol=lf
+.env.development
+.env.production
